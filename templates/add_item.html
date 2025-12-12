@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="col-md-8 mx-auto mt-4">
+    <h2 class="mb-4">Adaugă Haină Nouă</h2>
+    
+    <form method="POST" action="{{ url_for('add_item') }}" enctype="multipart/form-data">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">Categorie</label>
+                <select name="category" id="category" class="form-select" required>
+                    <option value="">Selectează...</option>
+                    <option value="Top">Top</option>
+                    <option value="Bottom">Bottom</option>
+                    <option value="Outerwear">Outerwear</option>
+                    <option value="Incaltaminte">Încălțăminte</option>
+                    <option value="Accessory">Accesorii</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Subcategorie</label>
+                <select name="subcategory" id="subcategory" class="form-select" required>
+                    <option value="">Alege întâi categoria...</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Culoare</label>
+                <input type="text" name="color" class="form-control" placeholder="ex: Albastru">
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Sezon</label>
+                <select name="season" class="form-select">
+                    <option value="Toate">Toate</option>
+                    <option value="Vara">Vara</option>
+                    <option value="Iarna">Iarna</option>
+                    <option value="Primavara/Toamna">Primăvară/Toamnă</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Stil</label>
+                <select name="style" class="form-select">
+                    <option value="Casual">Casual</option>
+                    <option value="Sport">Sport</option>
+                    <option value="Elegant">Elegant</option>
+                </select>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Imagine</label>
+                <input type="file" name="image" class="form-control" accept="image/*">
+            </div>
+
+            <div class="col-12 d-flex gap-4 my-3">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="is_waterproof" id="wp">
+                    <label class="form-check-label" for="wp">Impermeabil</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="is_favorite" id="fav">
+                    <label class="form-check-label" for="fav">Favorit</label>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary w-100">Salvează</button>
+                <a href="{{ url_for('dashboard') }}" class="btn btn-link w-100">Anulează</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    const subcategories = {
+        "Top": ["Tricou", "Cămașă", "Hanorac", "Pulover", "Maiou"],
+        "Bottom": ["Blugi", "Pantaloni", "Fustă", "Pantaloni scurți"],
+        "Outerwear": ["Geacă", "Palton", "Sacou", "Vestă"],
+        "Incaltaminte": ["Adidași", "Pantofi", "Ghete", "Sandale"],
+        "Accessory": ["Ceas", "Pălărie", "Geantă", "Ochelari"]
+    };
+
+    document.getElementById('category').addEventListener('change', function() {
+        const sub = document.getElementById('subcategory');
+        sub.innerHTML = '<option value="">Alege...</option>';
+        const selected = this.value;
+        if (subcategories[selected]) {
+            subcategories[selected].forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item;
+                opt.text = item;
+                sub.appendChild(opt);
+            });
+        }
+    });
+</script>
+{% endblock %}

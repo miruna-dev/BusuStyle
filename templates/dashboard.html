@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row mb-4 g-3">
+    <div class="col-md-4">
+        <div class="card text-white bg-primary h-100">
+            <div class="card-body">
+                <h3>Salut, {{ user.first_name }}! 👋</h3>
+                <p>Bine ai revenit.</p>
+                <a href="{{ url_for('add_item') }}" class="btn btn-light rounded-pill mt-2">➕ Adaugă Haină</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 text-center">
+            <div class="card-body d-flex flex-column justify-content-center">
+                <div class="display-4">⛅</div>
+                <h5>Vremea</h5>
+                <p class="text-muted small">Funcționalitate indisponibilă momentan</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 border-warning">
+            <div class="card-body d-flex flex-column justify-content-center">
+                <h6 class="text-warning text-uppercase">
+                    {% if quote and quote.type == 'style_tip' %} Sfat de Stil {% else %} Daily Motivation {% endif %}
+                </h6>
+                {% if quote %}
+                    <figure class="mb-0">
+                        <blockquote class="blockquote fs-6">
+                            <p class="mb-2">"{{ quote.text }}"</p>
+                        </blockquote>
+                        {% if quote.author %}
+                            <figcaption class="blockquote-footer mt-1 mb-0">{{ quote.author }}</figcaption>
+                        {% endif %}
+                    </figure>
+                {% else %}
+                    <p class="text-muted mb-0">Fii tu însuți!</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<h3 class="mb-3">Colecția Ta</h3>
+<hr class="mb-4">
+
+{% if clothes %}
+    <div class="row g-4">
+        {% for item in clothes %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 position-relative shadow-sm">
+                    <form action="{{ url_for('delete_item', item_id=item.id) }}" method="POST" class="position-absolute top-0 end-0 m-2 z-1">
+                        <button type="submit" class="btn btn-sm btn-outline-danger rounded-circle bg-white" onclick="return confirm('Ștergi?')">🗑️</button>
+                    </form>
+
+                    <div class="row g-0 h-100">
+                        <div class="col-4 d-flex align-items-center justify-content-center bg-light rounded-start">
+                            {% if item.image_filename %}
+                                <img src="{{ url_for('static', filename='uploads/' + item.image_filename) }}" class="img-fluid rounded-start" style="height: 100px; object-fit: cover;">
+                            {% else %}
+                                <span class="fs-1">👕</span>
+                            {% endif %}
+                        </div>
+                        <div class="col-8">
+                            <div class="card-body py-2">
+                                <small class="text-muted text-uppercase">{{ item.category }}</small>
+                                <h5 class="card-title mb-1">{{ item.subcategory }}</h5>
+                                <p class="card-text small text-muted mb-1">
+                                    {{ item.color }} | {{ item.season }}
+                                </p>
+                                <div>
+                                    {% if item.is_waterproof %}<span class="badge bg-info text-dark">Waterproof</span>{% endif %}
+                                    {% if item.is_favorite %}<span class="badge bg-warning text-dark">Favorit</span>{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-light text-center border py-5">
+        <p class="mb-0">Nu ai haine încă. Adaugă prima piesă!</p>
+    </div>
+{% endif %}
+{% endblock %}
