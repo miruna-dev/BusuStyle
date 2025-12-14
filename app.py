@@ -33,17 +33,23 @@ login_manager.init_app(app)
 login_manager.login_view = 'login'
 
 class User(UserMixin):
-    def __init__(self, id, email, first_name):
+    def __init__(self, id, email, first_name, last_name):
         self.id = id
         self.email = email
         self.first_name = first_name
+        self.last_name = last_name
 
 @login_manager.user_loader
 def load_user(user_id):
     conn = get_db()
     user = conn.execute('SELECT * FROM User WHERE id = ?', (user_id,)).fetchone()
     if user:
-        return User(user['id'], user['email'], user['first_name'])
+        return User(
+            user['id'],
+            user['email'],
+            user['first_name'],
+            user['last_name']
+        )
     return None
 
 @app.route('/')
@@ -58,17 +64,28 @@ def register():
         email = request.form.get('email')
         password = request.form.get('password')
         first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
+
         conn = get_db()
-        user = conn.execute('SELECT * FROM User WHERE email = ?', (email,)).fetchone()
+        user = conn.execute(
+            'SELECT * FROM User WHERE email = ?',
+            (email,)
+        ).fetchone()
+
         if user:
             flash('Email deja existent.')
             return redirect(url_for('register'))
-        
+
         hashed_pw = generate_password_hash(password, method='scrypt')
-        conn.execute('INSERT INTO User (email, password_hash, first_name) VALUES (?, ?, ?)', 
-                     (email, hashed_pw, first_name))
+
+        conn.execute(
+            'INSERT INTO User (email, password_hash, first_name, last_name) VALUES (?, ?, ?, ?)',
+            (email, hashed_pw, first_name, last_name)
+        )
         conn.commit()
+
         return redirect(url_for('login'))
+
     return render_template('register.html')
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -80,7 +97,12 @@ def login():
         user_data = conn.execute('SELECT * FROM User WHERE email = ?', (email,)).fetchone()
         
         if user_data and check_password_hash(user_data['password_hash'], password):
-            user_obj = User(user_data['id'], user_data['email'], user_data['first_name'])
+            user_obj = User(
+                user_data['id'],
+                user_data['email'],
+                user_data['first_name'],
+                user_data['last_name']
+            )
             login_user(user_obj)
             return redirect(url_for('dashboard'))
         flash('Date incorecte.')
@@ -108,11 +130,14 @@ def dashboard():
 
     weather = get_current_weather("Bucharest")
 
+    tab = request.args.get("tab", "closet")
+
     return render_template(
         'dashboard.html',
         clothes=clothes,
         quote=quote,
         weather=weather,
+        tab=tab,
         user=current_user
     )
 

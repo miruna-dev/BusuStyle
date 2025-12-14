@@ -1,6 +1,93 @@
 {% extends "base.html" %}
-
 {% block content %}
-    <h1>Bun venit la BusuStyle!</h1>
-    <p>Te rugăm să te autentifici sau să îți creezi un cont.</p>
+
+<section class="hero">
+  <div class="hero-content">
+    <h1>Create stunning outfits<br>and dress to impress</h1>
+    <p>
+      BusuStyle este asistentul tău zilnic de stil. Organizează-ți hainele,
+      creează outfit-uri și inspiră-te în fiecare zi.
+    </p>
+
+    <div class="hero-actions">
+      <a href="{{ url_for('register') }}" class="btn-primary">Începe acum</a>
+      <a href="{{ url_for('login') }}" class="btn-secondary">Login</a>
+    </div>
+  </div>
+
+  <div class="hero-mockup">
+    <div class="phone-placeholder">
+      Telefon preview
+    </div>
+  </div>
+</section>
+
+<section class="ratings">
+  <h2>Rated 4.7 out of 5 ⭐</h2>
+  <p class="muted">5000+ reviews</p>
+
+  <div class="review-grid">
+    <div class="review-card">
+      ⭐⭐⭐⭐⭐
+      <p>Aplicația mea preferată pentru outfit-uri.</p>
+      <span>— IT Elli</span>
+    </div>
+    <div class="review-card">
+      ⭐⭐⭐⭐⭐
+      <p>M-a ajutat enorm să-mi organizez hainele.</p>
+      <span>— GB carmss1</span>
+    </div>
+    <div class="review-card">
+      ⭐⭐⭐⭐⭐
+      <p>Interfață curată, foarte intuitivă.</p>
+      <span>— NL Harosky</span>
+    </div>
+  </div>
+</section>
+
+<section class="scroll-magic">
+
+  <div class="magic-sticky">
+
+    <div class="magic-text">
+      <h2 id="magic-title"></h2>
+      <p id="magic-desc"></p>
+    </div>
+
+    <div class="magic-phone">
+      <div id="magic-phone-content">
+        Imagine telefon
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<section class="why">
+    <h2 class="text-center fw-semibold mb-5">
+        Why you need an outfit planner
+    </h2>
+
+
+  <div class="why-grid">
+    <div class="why-card">
+      <h4>Log your outfits</h4>
+      <p>Ține evidența combinațiilor tale preferate.</p>
+    </div>
+    <div class="why-card">
+      <h4>No more morning stress</h4>
+      <p>Știi dinainte ce vei purta.</p>
+    </div>
+    <div class="why-card">
+      <h4>Experiment before you buy</h4>
+      <p>Vezi ce se potrivește înainte să cumperi.</p>
+    </div>
+  </div>
+</section>
+
+<div style="height: 120px;"></div>
+
+
+<script src="{{ url_for('static', filename='landing.js') }}"></script>
 {% endblock %}
