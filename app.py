@@ -4,6 +4,8 @@ from flask import Flask, render_template, redirect, url_for, g, request, flash
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from flask_login import LoginManager, login_required, current_user, UserMixin, login_user, logout_user
+from weather import get_current_weather
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'cheie-secreta-proiect'
@@ -94,9 +96,25 @@ def logout():
 @login_required
 def dashboard():
     conn = get_db()
-    clothes = conn.execute('SELECT * FROM ClothingItem WHERE user_id = ?', (current_user.id,)).fetchall()
-    quote = conn.execute('SELECT * FROM DailyQuote ORDER BY RANDOM() LIMIT 1').fetchone()
-    return render_template('dashboard.html', clothes=clothes, quote=quote, user=current_user)
+
+    clothes = conn.execute(
+        'SELECT * FROM ClothingItem WHERE user_id = ?',
+        (current_user.id,)
+    ).fetchall()
+
+    quote = conn.execute(
+        'SELECT * FROM DailyQuote ORDER BY RANDOM() LIMIT 1'
+    ).fetchone()
+
+    weather = get_current_weather("Bucharest")
+
+    return render_template(
+        'dashboard.html',
+        clothes=clothes,
+        quote=quote,
+        weather=weather,
+        user=current_user
+    )
 
 @app.route('/add_item', methods=['GET', 'POST'])
 @login_required
