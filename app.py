@@ -12,7 +12,7 @@ from flask_login import (
     logout_user,
     current_user,
 )
-#import google.generativeai as genai
+import google.generativeai as genai
 from rembg import remove
 from PIL import Image
 
@@ -42,8 +42,8 @@ db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
 
-#genai.configure(api_key="AIzaSyB1guvxOyQavGQ6RvG74oRCQagyWYBgNN8")
-#model = genai.GenerativeModel("gemini-flash-latest")
+genai.configure(api_key="AIzaSyB1guvxOyQavGQ6RvG74oRCQagyWYBgNN8")
+model = genai.GenerativeModel("gemini-flash-latest")
 
 
 class User(UserMixin, db.Model):
@@ -332,14 +332,20 @@ def generator():
         'shoes': {'filename': 'default_shoes.png', 'folder': 'defaults'},
         'accessories': {'filename': 'default_accessories.png', 'folder': 'defaults'}
     }
-    
+
     outfit = placeholder_outfit
-    
+    is_post_request = False
+
     if request.method == 'POST':
         user_clothes = ClothingItem.query.filter_by(user_id=current_user.id).all()
         outfit = generate_heuristic_outfit(user_clothes)
-        
-    return render_template('generator.html', outfit=outfit)
+        is_post_request = True
+
+    return render_template(
+        'generator.html',
+        outfit=outfit,
+        is_post_request=is_post_request
+    )
 
 
 @app.route('/showroom')
