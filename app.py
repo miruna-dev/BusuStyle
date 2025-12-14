@@ -5,11 +5,20 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 from flask_login import LoginManager, login_required, current_user, UserMixin, login_user, logout_user
 from weather import get_current_weather
+from rembg import remove
+from PIL import Image
+import io
+
 
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'cheie-secreta-proiect'
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
+RAW_FOLDER = os.path.join(app.config['UPLOAD_FOLDER'], 'raw')
+PROCESSED_FOLDER = os.path.join(app.config['UPLOAD_FOLDER'], 'processed')
+
+os.makedirs(RAW_FOLDER, exist_ok=True)
+os.makedirs(PROCESSED_FOLDER, exist_ok=True)
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp'}
 
 if not os.path.exists(app.config['UPLOAD_FOLDER']):
@@ -147,18 +156,53 @@ def add_item():
     if request.method == 'POST':
         category = request.form.get('category')
         subcategory = request.form.get('subcategory')
+        color = request.form.get('color')
+        season = request.form.get('season')
+        style = request.form.get('style')
+        is_favorite = 1 if request.form.get('is_favorite') else 0
+        is_waterproof = 1 if request.form.get('is_waterproof') else 0
+
         file = request.files.get('image')
         filename = None
-        
+
         if file and file.filename != '':
-            filename = secure_filename(f"{current_user.id}_{file.filename}")
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            
+            base_name = secure_filename(
+                f"{current_user.id}_{os.path.splitext(file.filename)[0]}"
+            )
+
+            raw_path = os.path.join(RAW_FOLDER, base_name + ".jpg")
+            processed_path = os.path.join(PROCESSED_FOLDER, base_name + ".png")
+
+            file.save(raw_path)
+
+            try:
+                remove_background_and_save(raw_path, processed_path)
+                filename = base_name + ".png"
+            except Exception as e:
+                print("Background removal failed:", e)
+                # daca nu merge -> trcem la poza originala ramanem cu ea asa
+                filename = os.path.basename(raw_path)
+
         conn = get_db()
-        conn.execute('INSERT INTO ClothingItem (user_id, category, subcategory, image_filename) VALUES (?, ?, ?, ?)',
-                     (current_user.id, category, subcategory, filename))
+        conn.execute("""
+            INSERT INTO ClothingItem 
+            (user_id, category, subcategory, color, season, style, image_filename, is_favorite, is_waterproof)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """, (
+            current_user.id,
+            category,
+            subcategory,
+            color,
+            season,
+            style,
+            filename,
+            is_favorite,
+            is_waterproof
+        ))
         conn.commit()
+
         return redirect(url_for('dashboard'))
+
     return render_template('add_item.html')
 
 @app.route('/delete/<int:item_id>', methods=['POST'])
@@ -168,6 +212,12 @@ def delete_item(item_id):
     conn.execute('DELETE FROM ClothingItem WHERE id = ? AND user_id = ?', (item_id, current_user.id))
     conn.commit()
     return redirect(url_for('dashboard'))
+
+def remove_background_and_save(input_path, output_path):
+    with Image.open(input_path) as img:
+        img = img.convert("RGBA")
+        output = remove(img)
+        output.save(output_path, format="PNG")
 
 if __name__ == '__main__':
     app.run(debug=True)

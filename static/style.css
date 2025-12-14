@@ -144,3 +144,24 @@
   padding: 40px;
   border-radius: 24px;
 }
+
+.card-img-wrapper {
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #fff; 
+    padding: 12px;
+}
+
+.clothing-img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
+
+.card-img-wrapper {
+    background: linear-gradient(180deg, #fafafa, #f2f2f2);
+}
+
+

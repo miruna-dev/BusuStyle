@@ -108,9 +108,10 @@
                 </div>
 
                 {% if item.image_filename %}
-                    <img src="{{ url_for('static', filename='uploads/' + item.image_filename) }}"
-                         class="card-img-top"
-                         style="height:180px;object-fit:cover;">
+                    <div class="card-img-wrapper">
+                        <img src="{{ url_for('static', filename='uploads/processed/' + item.image_filename) }}"
+                        class="clothing-img">
+                    </div>
                 {% else %}
                     <div class="d-flex align-items-center justify-content-center bg-light"
                          style="height:180px;font-size:48px;">
