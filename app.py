@@ -79,57 +79,35 @@ def remove_background_and_save(input_path, output_path):
         return False
 
 
+def get_item_or_default(items_list, default_filename):
+    if items_list:
+        item = random.choice(items_list)
+        return {
+            'filename': item.image_filename,
+            'is_default': False,
+            'folder': 'uploads'
+        }
+    else:
+        return {
+            'filename': default_filename,
+            'is_default': True,
+            'folder': 'defaults'
+        }
+
 def generate_heuristic_outfit(clothes):
-    tops = [c for c in clothes if c.category == "Top"]
-    bottoms = [c for c in clothes if c.category == "Bottom"]
-    shoes = [c for c in clothes if c.category == "Incaltaminte"]
+    tops = [c for c in clothes if c.category == 'Top']
+    bottoms = [c for c in clothes if c.category == 'Bottom']
+    outerwear = [c for c in clothes if c.category == 'Outerwear']
+    shoes = [c for c in clothes if c.category == 'Incaltaminte']
+    accessories = [c for c in clothes if c.category == 'Accesorii']
 
-    warnings = []
-
-    if tops:
-        selected_top = random.choice(tops)
-    else:
-        selected_top = {
-            "image_filename": "default_top.png",
-            "subcategory": "Top Default",
-            "color": "Neutru",
-            "style": "Casual",
-            "is_default": True,
-        }
-        warnings.append("Lipsa Top.")
-
-    if bottoms:
-        selected_bottom = random.choice(bottoms)
-    else:
-        selected_bottom = {
-            "image_filename": "default_bottom.png",
-            "subcategory": "Pantaloni Default",
-            "color": "Neutru",
-            "style": "Casual",
-            "is_default": True,
-        }
-        warnings.append("Lipsa Pantaloni.")
-
-    if shoes:
-        selected_shoe = random.choice(shoes)
-    else:
-        selected_shoe = {
-            "image_filename": "default_shoes.png",
-            "subcategory": "Pantofi Default",
-            "color": "Neutru",
-            "style": "Casual",
-            "is_default": True,
-        }
-
-    score = 10
     return {
-        "top": selected_top,
-        "bottom": selected_bottom,
-        "shoes": selected_shoe,
-        "score": score,
-        "warnings": warnings,
+        'top': get_item_or_default(tops, 'default_top.png'),
+        'bottom': get_item_or_default(bottoms, 'default_bottom.png'),
+        'outerwear': get_item_or_default(outerwear, 'default_outerwear.png'),
+        'shoes': get_item_or_default(shoes, 'default_shoes.png'),
+        'accessories': get_item_or_default(accessories, 'default_accessories.png')
     }
-
 
 @app.route("/")
 def index():
@@ -293,16 +271,30 @@ REGULI IMPORTANTE:
         return {"response": "Eroare la conectare AI."}
 
 
-@app.route("/generator", methods=["GET", "POST"])
+@app.route('/generator', methods=['GET', 'POST'])
 @login_required
 def generator():
+    placeholder_outfit = {
+        'top': {'filename': 'default_top.png', 'folder': 'defaults'},
+        'bottom': {'filename': 'default_bottom.png', 'folder': 'defaults'},
+        'outerwear': {'filename': 'default_outerwear.png', 'folder': 'defaults'},
+        'shoes': {'filename': 'default_shoes.png', 'folder': 'defaults'},
+        'accessories': {'filename': 'default_accessories.png', 'folder': 'defaults'}
+    }
+    
     outfit = None
-    if request.method == "POST":
+    is_post_request = False
+    
+    if request.method == 'POST':
+        is_post_request = True
         user_clothes = ClothingItem.query.filter_by(user_id=current_user.id).all()
         outfit = generate_heuristic_outfit(user_clothes)
-    return render_template("generator.html", outfit=outfit)
-
-
+    
+    return render_template('generator.html', 
+                           outfit=outfit if is_post_request else placeholder_outfit, 
+                           is_post_request=is_post_request)
+    
+    
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
