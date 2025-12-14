@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='showroom.css') }}">
+
+<!-- JSON DATA pentru JS -->
+<script id="data-json" type="application/json">
+{
+  "top": {{ tops | tojson }},
+  "bottom": {{ bottoms | tojson }},
+  "shoes": {{ shoes | tojson }}
+}
+</script>
+
+<script defer src="{{ url_for('static', filename='showroom.js') }}"></script>
+
+<div class="showroom">
+
+    <!-- STÂNGA -->
+    <div class="mannequin-zone">
+
+        <div class="carousel" data-type="top">
+            <button class="arrow left">‹</button>
+            <img id="top-img" />
+            <button class="arrow right">›</button>
+        </div>
+
+        <div class="carousel mannequin">
+            <img src="{{ url_for('static', filename='mannequin.png') }}">
+        </div>
+
+        <div class="carousel" data-type="bottom">
+            <button class="arrow left">‹</button>
+            <img id="bottom-img" />
+            <button class="arrow right">›</button>
+        </div>
+
+        <div class="carousel" data-type="shoes">
+            <button class="arrow left">‹</button>
+            <img id="shoes-img" />
+            <button class="arrow right">›</button>
+        </div>
+
+    </div>
+
+    <!-- DREAPTA -->
+    <div class="side-lists">
+
+        <h5>Outerwear</h5>
+        <div class="list">
+            {% for i in outerwear %}
+                {% if i.image_filename %}
+                    <img src="{{ url_for('static', filename='uploads/processed/' + i.image_filename) }}">
+                {% else %}
+                    <div class="placeholder">{{ i.subcategory }}</div>
+                {% endif %}
+            {% else %}
+                <p class="empty">Niciun outerwear</p>
+            {% endfor %}
+        </div>
+
+        <h5>Accessories</h5>
+        <div class="list">
+            {% for i in accessories %}
+                {% if i.image_filename %}
+                    <img src="{{ url_for('static', filename='uploads/processed/' + i.image_filename) }}">
+                {% else %}
+                    <div class="placeholder">{{ i.subcategory }}</div>
+                {% endif %}
+            {% else %}
+                <p class="empty">Niciun accesoriu</p>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
