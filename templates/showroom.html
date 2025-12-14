@@ -19,29 +19,29 @@
     <!-- STÂNGA -->
     <div class="mannequin-zone">
 
-        <div class="carousel" data-type="top">
-            <button class="arrow left">‹</button>
-            <img id="top-img" />
-            <button class="arrow right">›</button>
-        </div>
+  <div class="layer top-layer">
+    <button class="arrow left" data-type="top">‹</button>
+    <img id="top-img" class="layer-img">
+    <button class="arrow right" data-type="top">›</button>
+  </div>
 
-        <div class="carousel mannequin">
-            <img src="{{ url_for('static', filename='mannequin.png') }}">
-        </div>
+  <div class="layer mannequin-layer">
+    <img src="{{ url_for('static', filename='uploads/manechin.png') }}">
+  </div>
 
-        <div class="carousel" data-type="bottom">
-            <button class="arrow left">‹</button>
-            <img id="bottom-img" />
-            <button class="arrow right">›</button>
-        </div>
+  <div class="layer bottom-layer">
+    <button class="arrow left" data-type="bottom">‹</button>
+    <img id="bottom-img" class="layer-img">
+    <button class="arrow right" data-type="bottom">›</button>
+  </div>
 
-        <div class="carousel" data-type="shoes">
-            <button class="arrow left">‹</button>
-            <img id="shoes-img" />
-            <button class="arrow right">›</button>
-        </div>
+  <div class="layer shoes-layer">
+    <button class="arrow left" data-type="shoes">‹</button>
+    <img id="shoes-img" class="layer-img">
+    <button class="arrow right" data-type="shoes">›</button>
+  </div>
 
-    </div>
+</div>
 
     <!-- DREAPTA -->
     <div class="side-lists">

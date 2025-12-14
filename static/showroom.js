@@ -55,3 +55,19 @@ document.querySelectorAll(".list img, .placeholder").forEach(el => {
     el.classList.add("active");
   };
 });
+
+document.querySelectorAll(".arrow").forEach(btn => {
+  const type = btn.dataset.type;
+
+  btn.onclick = () => {
+    if (!DATA[type] || DATA[type].length === 0) return;
+
+    if (btn.classList.contains("left")) {
+      state[type] = (state[type] - 1 + DATA[type].length) % DATA[type].length;
+    } else {
+      state[type] = (state[type] + 1) % DATA[type].length;
+    }
+
+    update(type);
+  };
+});
