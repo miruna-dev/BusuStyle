@@ -164,4 +164,14 @@
     background: linear-gradient(180deg, #fafafa, #f2f2f2);
 }
 
+.dashboard-hero {
+    position: relative;
+    z-index: 1;
+}
+
+.dashboard-nav {
+    position: relative;
+    z-index: 10;
+}
+
 

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="position-relative mb-5">
+<div class="position-relative mb-5 dashboard-hero">
 
     <div style="
         height:240px;
@@ -66,6 +66,11 @@
            class="btn btn-outline-primary mt-2">
             ➕ Adaugă haină
         </a>
+        <a href="{{ url_for('showroom') }}"
+   class="btn btn-outline-dark mt-2">
+    🧍 Showroom
+</a>
+
     </div>
 </div>
 
@@ -92,25 +97,30 @@
 
 <div class="container">
 
-{% if tab == 'closet' %}
+{% if tab in ['closet', 'loved'] %}
     {% if clothes %}
     <div class="row g-4">
         {% for item in clothes %}
         <div class="col-lg-3 col-md-4 col-sm-6">
             <div class="card h-100 position-relative shadow-sm">
 
-                <div class="position-absolute top-0 start-0 m-2 fs-5">
-                    {% if item.is_favorite %}
-                        ❤️
-                    {% else %}
-                        🤍
-                    {% endif %}
-                </div>
+                <form method="POST"
+                      action="{{ url_for('toggle_favorite', item_id=item.id, tab=tab) }}"
+                      class="position-absolute top-0 start-0 m-2">
+                    <button type="submit"
+                            class="btn btn-sm p-0 border-0 bg-transparent fs-5">
+                        {% if item.is_favorite %}
+                            ❤️
+                        {% else %}
+                            🤍
+                        {% endif %}
+                    </button>
+                </form>
 
                 {% if item.image_filename %}
                     <div class="card-img-wrapper">
                         <img src="{{ url_for('static', filename='uploads/processed/' + item.image_filename) }}"
-                        class="clothing-img">
+                             class="clothing-img">
                     </div>
                 {% else %}
                     <div class="d-flex align-items-center justify-content-center bg-light"
@@ -133,23 +143,16 @@
     </div>
     {% else %}
         <div class="text-center text-muted py-5">
-            Nu ai haine încă.
+            {% if tab == 'loved' %}
+                ❤️ Nu ai haine favorite încă.
+            {% else %}
+                Nu ai haine încă.
+            {% endif %}
         </div>
     {% endif %}
 {% endif %}
 
-{% if tab == 'loved' %}
-    <div class="text-center text-muted py-5">
-        ❤️ Hainele favorite vor apărea aici.
-    </div>
-{% endif %}
-
-{% if tab == 'outfits' %}
-    <div class="text-center text-muted py-5">
-        👕 Outfit-urile generate vor apărea aici.
-    </div>
-{% endif %}
-
 </div>
+<div style="height: 120px;"></div>
 
 {% endblock %}

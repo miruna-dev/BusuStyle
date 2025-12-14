@@ -17,8 +17,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///busustyle.db'
 app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
 RAW_FOLDER = os.path.join(app.config['UPLOAD_FOLDER'], 'raw')
+PROCESSED_FOLDER = os.path.join(app.config['UPLOAD_FOLDER'], 'processed')
+
 os.makedirs(RAW_FOLDER, exist_ok=True)
-os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+os.makedirs(PROCESSED_FOLDER, exist_ok=True)
 
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
@@ -147,13 +149,41 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+def item_to_dict(item):
+    return {
+        "id": item.id,
+        "image_filename": item.image_filename,
+        "category": item.category,
+        "subcategory": item.subcategory,
+        "is_favorite": item.is_favorite
+    }
+
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    clothes = ClothingItem.query.filter_by(user_id=current_user.id).all()
-    quote = {'text': 'Haina il face pe om.', 'author': 'Proverb', 'type': 'style'}
+    tab = request.args.get('tab', 'closet')
+
+    if tab == 'loved':
+        clothes = ClothingItem.query.filter_by(
+            user_id=current_user.id,
+            is_favorite=True
+        ).all()
+    else:
+        clothes = ClothingItem.query.filter_by(
+            user_id=current_user.id
+        ).all()
+
+    quote = {'text': 'Haina îl face pe om.', 'author': 'Proverb'}
     weather = get_current_weather("Bucharest")
-    return render_template('dashboard.html', clothes=clothes, quote=quote, user=current_user, weather=weather)
+
+    return render_template(
+        'dashboard.html',
+        clothes=clothes,
+        quote=quote,
+        user=current_user,
+        weather=weather,
+        tab=tab
+    )
 
 @app.route('/add_item', methods=['GET', 'POST'])
 @login_required
@@ -172,22 +202,26 @@ def add_item():
 
         if file and file.filename != '':
             base_name = secure_filename(f"{current_user.id}_{file.filename}")
+
             raw_path = os.path.join(RAW_FOLDER, base_name)
             file.save(raw_path)
 
             processed_filename = os.path.splitext(base_name)[0] + ".png"
-            processed_path = os.path.join(app.config['UPLOAD_FOLDER'], processed_filename)
-            
+            processed_path = os.path.join(
+                app.config['UPLOAD_FOLDER'],
+                'processed',
+                processed_filename
+            )
+
             success = remove_background_and_save(raw_path, processed_path)
-            
+
             if success:
                 filename = processed_filename
             else:
-                final_path = os.path.join(app.config['UPLOAD_FOLDER'], base_name)
-                with open(raw_path, 'rb') as f_in:
-                    with open(final_path, 'wb') as f_out:
-                        f_out.write(f_in.read())
-                filename = base_name
+                with Image.open(raw_path) as img:
+                    img = img.convert("RGBA")
+                    img.save(processed_path, format="PNG")
+                filename = processed_filename
 
         new_item = ClothingItem(
             user_id=current_user.id,
@@ -196,14 +230,31 @@ def add_item():
             color=color,
             season=season,
             style=style,
-            image_filename=filename,
+            image_filename=filename,  
             is_favorite=is_favorite,
             is_waterproof=is_waterproof
         )
+
         db.session.add(new_item)
         db.session.commit()
         return redirect(url_for('dashboard'))
+
     return render_template('add_item.html')
+
+@app.route('/toggle_favorite/<int:item_id>', methods=['POST'])
+@login_required
+def toggle_favorite(item_id):
+    item = ClothingItem.query.get(item_id)
+    if not item or item.user_id != current_user.id:
+        return redirect(url_for('dashboard'))
+
+    item.is_favorite = not item.is_favorite
+    db.session.commit()
+
+    # păstrăm tab-ul curent
+    tab = request.args.get('tab', 'closet')
+    return redirect(url_for('dashboard', tab=tab))
+
 
 @app.route('/delete/<int:item_id>', methods=['POST'])
 @login_required
@@ -236,6 +287,26 @@ def generator():
         user_clothes = ClothingItem.query.filter_by(user_id=current_user.id).all()
         outfit = generate_heuristic_outfit(user_clothes)
     return render_template('generator.html', outfit=outfit)
+
+@app.route('/showroom')
+@login_required
+def showroom():
+    items = ClothingItem.query.filter_by(user_id=current_user.id).all()
+
+    tops = [item_to_dict(i) for i in items if i.category == 'Top']
+    bottoms = [item_to_dict(i) for i in items if i.category == 'Bottom']
+    shoes = [item_to_dict(i) for i in items if i.category == 'Incaltaminte']
+    outerwear = [i for i in items if i.category == 'Outerwear']
+    accessories = [i for i in items if i.category == 'Accesorii']
+
+    return render_template(
+        'showroom.html',
+        tops=tops,
+        bottoms=bottoms,
+        shoes=shoes,
+        outerwear=outerwear,    
+        accessories=accessories
+    )
 
 if __name__ == '__main__':
     with app.app_context():
