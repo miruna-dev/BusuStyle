@@ -6,62 +6,6 @@
     <title>BusuStyle</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    
-    <style>
-        #chat-btn-container {
-            position: fixed; 
-            bottom: 20px; 
-            right: 20px; 
-            z-index: 1000;
-            cursor: pointer;
-            transition: transform 0.3s;
-        }
-
-        #chat-btn-container:hover {
-            transform: scale(1.1);
-        }
-
-        #robot-img {
-            width: 80px; 
-            height: auto; 
-            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.3));
-        }
-
-        #welcome-bubble {
-            position: absolute;
-            bottom: 85px;
-            right: 10px;
-            background: white;
-            padding: 10px 15px;
-            border-radius: 20px 20px 0 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            font-size: 0.9em;
-            font-weight: bold;
-            color: #333;
-            white-space: nowrap;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-5px); }
-            100% { transform: translateY(0px); }
-        }
-
-        #chat-window {
-            position: fixed; bottom: 110px; right: 20px; z-index: 1000;
-            width: 350px; height: 450px; background: white;
-            border-radius: 15px; box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            display: none; flex-direction: column; overflow: hidden;
-            border: 1px solid #ddd;
-        }
-        .chat-header { background: #0d6efd; color: white; padding: 15px; font-weight: bold; }
-        .chat-body { flex: 1; padding: 15px; overflow-y: auto; font-size: 0.9em; background: #f9f9f9; }
-        .chat-footer { padding: 10px; border-top: 1px solid #eee; display: flex; gap: 5px; background: white; }
-        .msg { margin-bottom: 10px; padding: 8px 12px; border-radius: 10px; max-width: 80%; }
-        .msg-user { background: #0d6efd; color: white; align-self: flex-end; margin-left: auto; }
-        .msg-ai { background: #e9ecef; color: #333; align-self: flex-start; }
-    </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -103,7 +47,8 @@
 
     <div id="chat-btn-container" onclick="toggleChat()">
         <div id="welcome-bubble">Cu ce te pot ajuta?</div>
-		<img src="{{ url_for('static', filename='busisor.png') }}" id="robot-img" alt="BusuStyle Bot">    </div>
+        <img id="robot-img" src="{{ url_for('static', filename='bot.png') }}" alt="Chat">
+    </div>
     
     <div id="chat-window">
         <div class="chat-header d-flex justify-content-between">
