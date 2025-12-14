@@ -1,91 +1,155 @@
 {% extends "base.html" %}
-
 {% block content %}
-<div class="row mb-4 g-3">
-    <div class="col-md-4">
-        <div class="card text-white bg-primary h-100">
-            <div class="card-body">
-                <h3>Salut, {{ user.first_name }}! 👋</h3>
-                <p>Bine ai revenit.</p>
-                <a href="{{ url_for('add_item') }}" class="btn btn-light rounded-pill mt-2">➕ Adaugă Haină</a>
-            </div>
-        </div>
-    </div>
 
-    <div class="col-md-4">
-        <div class="card h-100 text-center">
-            <div class="card-body d-flex flex-column justify-content-center">
-                <div class="display-4">⛅</div>
-                <h5>Vremea</h5>
-                <p class="text-muted small">Funcționalitate indisponibilă momentan</p>
-            </div>
-        </div>
-    </div>
+<div class="position-relative mb-5">
 
-    <div class="col-md-4">
-        <div class="card h-100 border-warning">
-            <div class="card-body d-flex flex-column justify-content-center">
-                <h6 class="text-warning text-uppercase">
-                    {% if quote and quote.type == 'style_tip' %} Sfat de Stil {% else %} Daily Motivation {% endif %}
-                </h6>
-                {% if quote %}
-                    <figure class="mb-0">
-                        <blockquote class="blockquote fs-6">
-                            <p class="mb-2">"{{ quote.text }}"</p>
-                        </blockquote>
-                        {% if quote.author %}
-                            <figcaption class="blockquote-footer mt-1 mb-0">{{ quote.author }}</figcaption>
-                        {% endif %}
-                    </figure>
-                {% else %}
-                    <p class="text-muted mb-0">Fii tu însuți!</p>
-                {% endif %}
-            </div>
+    <div style="
+        height:240px;
+        background:linear-gradient(120deg,#4f46e5,#9333ea);
+    "></div>
+
+    <div class="position-absolute start-50 translate-middle-x" style="top: 200px;">
+        <div class="rounded-circle bg-white d-flex align-items-center justify-content-center shadow border"
+             style="width:110px;height:110px;font-size:48px;">
+            👤
         </div>
     </div>
 </div>
 
-<h3 class="mb-3">Colecția Ta</h3>
-<hr class="mb-4">
+<div class="text-center" style="margin-top: 90px; margin-bottom: 40px;">
+    <h4 class="mb-1">
+        Bună, {{ user.first_name }}{% if user.last_name %} {{ user.last_name }}{% endif %}
+    </h4>
 
-{% if clothes %}
-    <div class="row g-4">
-        {% for item in clothes %}
-            <div class="col-md-6 col-lg-4">
-                <div class="card h-100 position-relative shadow-sm">
-                    <form action="{{ url_for('delete_item', item_id=item.id) }}" method="POST" class="position-absolute top-0 end-0 m-2 z-1">
-                        <button type="submit" class="btn btn-sm btn-outline-danger rounded-circle bg-white" onclick="return confirm('Ștergi?')">🗑️</button>
-                    </form>
+    {% if quote %}
+        <em class="text-muted">“{{ quote.text }}”</em>
+        {% if quote.author %}
+            <div class="small text-muted mt-1">— {{ quote.author }}</div>
+        {% endif %}
+    {% endif %}
+</div>
 
-                    <div class="row g-0 h-100">
-                        <div class="col-4 d-flex align-items-center justify-content-center bg-light rounded-start">
-                            {% if item.image_filename %}
-                                <img src="{{ url_for('static', filename='uploads/' + item.image_filename) }}" class="img-fluid rounded-start" style="height: 100px; object-fit: cover;">
-                            {% else %}
-                                <span class="fs-1">👕</span>
-                            {% endif %}
-                        </div>
-                        <div class="col-8">
-                            <div class="card-body py-2">
-                                <small class="text-muted text-uppercase">{{ item.category }}</small>
-                                <h5 class="card-title mb-1">{{ item.subcategory }}</h5>
-                                <p class="card-text small text-muted mb-1">
-                                    {{ item.color }} | {{ item.season }}
-                                </p>
-                                <div>
-                                    {% if item.is_waterproof %}<span class="badge bg-info text-dark">Waterproof</span>{% endif %}
-                                    {% if item.is_favorite %}<span class="badge bg-warning text-dark">Favorit</span>{% endif %}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+<div class="d-flex justify-content-center mb-5">
+    <div class="border rounded px-4 py-3 text-center" style="min-width:320px;">
+
+        <div class="d-flex justify-content-center align-items-center gap-3 mb-2">
+            <div style="font-size:42px;">
+                {% if weather %}
+                    {% if weather.is_rainy %} 🌧️
+                    {% elif weather.is_snowy %} ❄️
+                    {% else %} ☀️
+                    {% endif %}
+                {% else %}
+                    ⛅
+                {% endif %}
+            </div>
+
+            {% if weather %}
+            <div>
+                <div class="fw-semibold">
+                    {{ weather.temperature }}°C · {{ weather.city }}
+                </div>
+                <div class="text-muted small">
+                    {{ weather.season }} · Vânt {{ weather.wind_speed }} m/s
                 </div>
             </div>
+            {% endif %}
+        </div>
+
+        {% if weather and weather.is_rainy %}
+            <div class="text-warning small fw-semibold mb-2">
+                Ia o umbrelă ☔
+            </div>
+        {% endif %}
+
+        <a href="{{ url_for('add_item') }}"
+           class="btn btn-outline-primary mt-2">
+            ➕ Adaugă haină
+        </a>
+    </div>
+</div>
+
+<ul class="nav nav-pills justify-content-center mb-5 gap-2">
+    <li class="nav-item">
+        <a class="nav-link {% if tab == 'closet' %}active{% endif %}"
+           href="{{ url_for('dashboard', tab='closet') }}">
+            Closet
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if tab == 'outfits' %}active{% endif %}"
+           href="{{ url_for('dashboard', tab='outfits') }}">
+            Outfits
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {% if tab == 'loved' %}active{% endif %}"
+           href="{{ url_for('dashboard', tab='loved') }}">
+            Loved
+        </a>
+    </li>
+</ul>
+
+<div class="container">
+
+{% if tab == 'closet' %}
+    {% if clothes %}
+    <div class="row g-4">
+        {% for item in clothes %}
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <div class="card h-100 position-relative shadow-sm">
+
+                <div class="position-absolute top-0 start-0 m-2 fs-5">
+                    {% if item.is_favorite %}
+                        ❤️
+                    {% else %}
+                        🤍
+                    {% endif %}
+                </div>
+
+                {% if item.image_filename %}
+                    <div class="card-img-wrapper">
+                        <img src="{{ url_for('static', filename='uploads/processed/' + item.image_filename) }}"
+                        class="clothing-img">
+                    </div>
+                {% else %}
+                    <div class="d-flex align-items-center justify-content-center bg-light"
+                         style="height:180px;font-size:48px;">
+                        👕
+                    </div>
+                {% endif %}
+
+                <div class="card-body">
+                    <small class="text-muted text-uppercase">{{ item.category }}</small>
+                    <h6 class="mb-1">{{ item.subcategory }}</h6>
+                    <div class="small text-muted">
+                        {{ item.color }} · {{ item.season }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
         {% endfor %}
     </div>
-{% else %}
-    <div class="alert alert-light text-center border py-5">
-        <p class="mb-0">Nu ai haine încă. Adaugă prima piesă!</p>
+    {% else %}
+        <div class="text-center text-muted py-5">
+            Nu ai haine încă.
+        </div>
+    {% endif %}
+{% endif %}
+
+{% if tab == 'loved' %}
+    <div class="text-center text-muted py-5">
+        ❤️ Hainele favorite vor apărea aici.
     </div>
 {% endif %}
+
+{% if tab == 'outfits' %}
+    <div class="text-center text-muted py-5">
+        👕 Outfit-urile generate vor apărea aici.
+    </div>
+{% endif %}
+
+</div>
+
 {% endblock %}
