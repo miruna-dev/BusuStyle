@@ -9,8 +9,7 @@ import google.generativeai as genai
 from rembg import remove
 from PIL import Image
 import io
-
-
+from weather import get_current_weather
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'cheia-secreta'
