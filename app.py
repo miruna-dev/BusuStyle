@@ -12,7 +12,7 @@ from flask_login import (
     logout_user,
     current_user,
 )
-#import google.generativeai as genai
+import google.generativeai as genai
 from rembg import remove
 from PIL import Image
 
@@ -42,8 +42,8 @@ db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
 
-#genai.configure(api_key="AIzaSyB1guvxOyQavGQ6RvG74oRCQagyWYBgNN8")
-#model = genai.GenerativeModel("gemini-flash-latest")
+genai.configure(api_key="AIzaSyB1guvxOyQavGQ6RvG74oRCQagyWYBgNN8")
+model = genai.GenerativeModel("gemini-flash-latest")
 
 
 class User(UserMixin, db.Model):
