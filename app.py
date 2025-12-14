@@ -8,11 +8,9 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 import google.generativeai as genai
 from rembg import remove
 from PIL import Image
+import io
 
-try:
-    from weather import get_current_weather
-except ImportError:
-    def get_current_weather(city): return None
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'cheia-secreta'
