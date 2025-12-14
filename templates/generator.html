@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text-center mb-5">
+    <h1 class="display-5">Generator de Outfit-uri</h1>
+    <p class="lead text-muted">Algoritmul alege cea mai buna combinatie pentru tine.</p>
+    
+    <form method="POST" class="mt-4">
+        <button type="submit" class="btn btn-primary btn-lg px-5 shadow">
+            Genereaza Tinuta
+        </button>
+    </form>
+</div>
+
+{% if outfit %}
+    <div class="row justify-content-center align-items-center g-4">
+        <div class="col-md-3">
+            <div class="card border-primary h-100 shadow-sm">
+                <div class="card-header bg-primary text-white text-center">TOP</div>
+                <div class="card-body text-center">
+                    {% if outfit.top.image_filename %}
+                        <img src="{{ url_for('static', filename='uploads/' + outfit.top.image_filename) }}" class="img-fluid rounded mb-2" style="max-height: 200px;">
+                    {% else %}
+                        <div class="display-1">Haina</div>
+                    {% endif %}
+                    <h5>{{ outfit.top.subcategory }}</h5>
+                    <small>{{ outfit.top.color }} | {{ outfit.top.style }}</small>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-1 text-center d-none d-md-block">
+            <span class="display-4 text-muted">+</span>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card border-success h-100 shadow-sm">
+                <div class="card-header bg-success text-white text-center">BOTTOM</div>
+                <div class="card-body text-center">
+                    {% if outfit.bottom.image_filename %}
+                        <img src="{{ url_for('static', filename='uploads/' + outfit.bottom.image_filename) }}" class="img-fluid rounded mb-2" style="max-height: 200px;">
+                    {% else %}
+                        <div class="display-1">Haina</div>
+                    {% endif %}
+                    <h5>{{ outfit.bottom.subcategory }}</h5>
+                    <small>{{ outfit.bottom.color }} | {{ outfit.bottom.style }}</small>
+                </div>
+            </div>
+        </div>
+
+        {% if outfit.shoes %}
+            <div class="col-md-1 text-center d-none d-md-block">
+                <span class="display-4 text-muted">+</span>
+            </div>
+            <div class="col-md-3">
+                <div class="card border-warning h-100 shadow-sm">
+                    <div class="card-header bg-warning text-dark text-center">INCALTAMINTE</div>
+                    <div class="card-body text-center">
+                        {% if outfit.shoes.image_filename %}
+                            <img src="{{ url_for('static', filename='uploads/' + outfit.shoes.image_filename) }}" class="img-fluid rounded mb-2" style="max-height: 200px;">
+                        {% else %}
+                            <div class="display-1">Pantofi</div>
+                        {% endif %}
+                        <h5>{{ outfit.shoes.subcategory }}</h5>
+                        <small>{{ outfit.shoes.color }} | {{ outfit.shoes.style }}</small>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="text-center mt-5">
+        <span class="badge bg-secondary fs-5">Scor Compatibilitate: {{ outfit.score }}/25</span>
+    </div>
+{% endif %}
+
+{% endblock %}
