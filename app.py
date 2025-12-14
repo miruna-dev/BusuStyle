@@ -331,14 +331,20 @@ def generator():
         'shoes': {'filename': 'default_shoes.png', 'folder': 'defaults'},
         'accessories': {'filename': 'default_accessories.png', 'folder': 'defaults'}
     }
-    
+
     outfit = placeholder_outfit
-    
+    is_post_request = False
+
     if request.method == 'POST':
         user_clothes = ClothingItem.query.filter_by(user_id=current_user.id).all()
         outfit = generate_heuristic_outfit(user_clothes)
-        
-    return render_template('generator.html', outfit=outfit)
+        is_post_request = True
+
+    return render_template(
+        'generator.html',
+        outfit=outfit,
+        is_post_request=is_post_request
+    )
 
 
 @app.route('/showroom')
