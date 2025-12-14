@@ -93,7 +93,7 @@ def get_item_or_default(items_list, default_filename):
         return {
             'filename': item.image_filename,
             'is_default': False,
-            'folder': 'uploads/processed'
+            'folder': 'uploads'
         }
     else:
         return {
@@ -101,7 +101,6 @@ def get_item_or_default(items_list, default_filename):
             'is_default': True,
             'folder': 'defaults'
         }
-
 
 def generate_heuristic_outfit(clothes):
     tops = [c for c in clothes if c.category == 'Top']
