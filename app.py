@@ -186,7 +186,7 @@ def item_to_dict(item):
         "image_filename": item.image_filename or "",
         "category": item.category,
         "subcategory": item.subcategory or "",
-        "is_favorite": item.is_favorite
+        "is_favorite": item.is_favorite,
         "folder": item.folder,
     }
 
