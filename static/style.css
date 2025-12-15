@@ -216,9 +216,32 @@
   border: 1px solid #ddd;
 }
 
+.chat-msg{
+	background: #ff54d4; 
+	color: #4a0038; 
+	padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+}
+.msg-ai{
+	background: #ff54d4; 
+	color: #4a0038; 
+	padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+}
+.msg-user{
+	background: #4a0038; 
+	color: #f9cfdf; 
+	padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+	align-self: flex-end;
+	margin-left: auto;
+}
 .chat-header { 
-  background: #c95e82; 
-  color: white; 
+  background: #ff54d4; 
+  color: #4a0038; 
   padding: 15px; 
   font-weight: bold; 
 }
@@ -244,19 +267,6 @@
   padding: 8px 12px; 
   border-radius: 10px; 
   max-width: 80%; 
-}
-
-.msg-user { 
-  background: #0d6efd; 
-  color: white; 
-  align-self: flex-end; 
-  margin-left: auto; 
-}
-
-.msg-ai { 
-  background: #e9ecef; 
-  color: #333; 
-  align-self: flex-start; 
 }
 
 .generator-container {
@@ -297,15 +307,18 @@
 
 .gen-btn {
     background: linear-gradient(135deg, #4a0038, #c02995);
+    background: linear-gradient(135deg, #4a0038, #c02995);
     color: white;
     border: none;
     padding: 15px 40px;
     font-size: 1.2rem;
     border-radius: 30px;
+    border-radius: 30px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     transition: all 0.3s;
     text-transform: uppercase;
     letter-spacing: 1px;
+	font-family: 'Georgia', sans-serif;
 	font-family: 'Georgia', sans-serif;
 }
 
@@ -319,33 +332,19 @@
 }
 
 .dashboard-hero {
-    /* Echivalentul pentru Bootstrap 'position-relative' */
     position: relative; 
-    
-    /* Echivalentul pentru Bootstrap 'mb-5' (margin-bottom: 3rem) */
     margin-bottom: 3rem; 
-    
-    /* Ne asigurăm că containerul ocupă toată lățimea */
     width: 100%;
-    
-    /* Eliminăm orice spațiu nedorit în jurul imaginii */
     padding: 0;
 }
-/* Declarația CSS pentru secțiunea Hero/Banner */
+
 .hero-banner {
-    /* Asigură-te că se întinde pe toată lățimea ecranului */
     width: 100%; 
-    
-    /* Setează o înălțime fixă rezonabilă pentru banner (ajustați după nevoie) */
     height: 250px; 
-    
-    /* Proprietățile de fundal pentru a afișa imaginea o singură dată și a umple spațiul */
-    background-image: url('../static/barbie-hero.png'); /* Schimbați calea */
+    background-image: url('../static/barbie-hero.png');
     background-repeat: no-repeat;
     background-position: center center; 
-    background-size: cover; /* Foarte important: Forțează imaginea să acopere 100% din zonă */
-    
-    /* Asigură că nu există margini sau spații suplimentare */
+    background-size: cover; 
     margin: 0;
     padding: 0;
 }
@@ -391,9 +390,11 @@
     transition: all 0.3s;
     text-transform: uppercase;
     letter-spacing: 1px;
-	font-family: 'Georgia', sans-serif;
 }
 .btn:hover{
+	transform: translateY(-2px);
+	color:white;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 	transform: translateY(-2px);
 	color:white;
     box-shadow: 0 8px 20px rgba(0,0,0,0.3);
@@ -411,6 +412,7 @@
 	color: #4a0038;
 	border-radius: 50px;
 	margin: 3rem;
+	text-align:center;
 }
 
 .avatar-wrapper {
@@ -433,3 +435,63 @@
   transform: translateY(22px);
 }
 
+body {
+	background-color: #ffbfd6;
+}
+
+.btn-delete, .btn-like {
+    width: 50px; 
+    height: 50px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background: transparent;
+    color: #4a0038;
+    font-weight: bold;
+    border: none;
+    font-size: 2rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0; 
+}
+
+.btn-delete {
+    display: block; 
+    margin-left: auto;
+    margin-right: 0;
+
+}
+
+.btn-delete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.btn-like:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.btn-2 {
+    background: linear-gradient(180deg, transparent, #c02995);
+    color: #4a0038; 
+    border: 1px solid #4a0038; 
+    outline: none; 
+    font-size: 1.1rem;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+	text-decoration: none;
+	padding: 10px;
+}
+
+.btn-2:hover {
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    transform: translateY(-2px);
+}
