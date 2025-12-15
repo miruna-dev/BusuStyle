@@ -44,9 +44,14 @@ document.querySelectorAll(".arrow").forEach(btn => {
 let selectedOuterwear = null;
 let selectedAccessory = null;
 
-// OUTERWEAR
 document.querySelectorAll(".outerwear-item").forEach(el => {
   el.onclick = () => {
+    if (el.classList.contains("active")) {
+      el.classList.remove("active");
+      selectedOuterwear = null;
+      return;
+    }
+
     document
       .querySelectorAll(".outerwear-item")
       .forEach(i => i.classList.remove("active"));
@@ -56,9 +61,15 @@ document.querySelectorAll(".outerwear-item").forEach(el => {
   };
 });
 
-// ACCESSORIES
+
 document.querySelectorAll(".accessory-item").forEach(el => {
   el.onclick = () => {
+    if (el.classList.contains("active")) {
+      el.classList.remove("active");
+      selectedAccessory = null;
+      return;
+    }
+
     document
       .querySelectorAll(".accessory-item")
       .forEach(i => i.classList.remove("active"));
@@ -67,4 +78,6 @@ document.querySelectorAll(".accessory-item").forEach(el => {
     selectedAccessory = el.dataset.id;
   };
 });
+
+
 ["top", "bottom", "shoes"].forEach(update);

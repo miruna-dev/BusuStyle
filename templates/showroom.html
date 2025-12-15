@@ -15,29 +15,24 @@
 
 <div class="showroom">
 
-  <!-- STÂNGA – MANECHIN -->
   <div class="left-panel">
 
     <div class="mannequin-zone">
 
-      <!-- TOP -->
       <div class="slot top-slot">
         <button class="arrow left" data-type="top">‹</button>
         <img id="top-img" class="item-img">
         <button class="arrow right" data-type="top">›</button>
       </div>
 
-      <!-- MANECHIN -->
       <img class="mannequin" src="{{ url_for('static', filename='uploads/manechin.png') }}">
 
-      <!-- BOTTOM -->
       <div class="slot bottom-slot">
         <button class="arrow left" data-type="bottom">‹</button>
         <img id="bottom-img" class="item-img">
         <button class="arrow right" data-type="bottom">›</button>
       </div>
 
-      <!-- SHOES -->
       <div class="slot shoes-slot">
         <button class="arrow left" data-type="shoes">‹</button>
         <img id="shoes-img" class="item-img">
@@ -47,23 +42,28 @@
     </div>
   </div>
 
-  <!-- DREAPTA – LISTE -->
 <div class="right-panel">
 
     <div class="right-top">
-        <h3>Outerwear</h3>
+      <h3>Outerwear</h3>
+
+      {% if outerwear %}
         <div class="list">
-            {% for i in outerwear %}
-                {% if i.image_filename %}
-                    <img class="side-item selectable outerwear-item"
-                         data-id="{{ i.id }}"
-                         src="{{ url_for('static', filename='uploads/processed/' + i.image_filename) }}">
-                {% else %}
-                    <div class="placeholder selectable outerwear-item"
-                         data-id="{{ i.id }}">{{ i.subcategory }}</div>
-                {% endif %}
-            {% endfor %}
+          {% for i in outerwear %}
+            {% if i.image_filename %}
+              <img class="side-item selectable outerwear-item"
+                  data-id="{{ i.id }}"
+                  src="{{ url_for('static', filename='uploads/processed/' + i.image_filename) }}">
+            {% else %}
+              <div class="placeholder selectable outerwear-item"
+                  data-id="{{ i.id }}">{{ i.subcategory }}</div>
+            {% endif %}
+          {% endfor %}
         </div>
+        <p class="empty outerwear-empty" style="display:none;">Niciun outerwear</p>
+      {% else %}
+        <p class="empty">Niciun outerwear</p>
+      {% endif %}
     </div>
 
     <div class="right-middle">
