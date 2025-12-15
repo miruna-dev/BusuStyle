@@ -1,5 +1,7 @@
 import os
 import random
+import sqlite3
+from database import init_db 
 from flask import Flask, render_template, redirect, url_for, request, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
@@ -323,7 +325,7 @@ def dashboard():
     else:
         clothes = ClothingItem.query.filter_by(user_id=current_user.id).all()
 
-    quote = {"text": "Haina îl face pe om.", "author": "Proverb"}
+    quote = get_random_quote()
     weather = get_current_weather("Bucharest")
 
     return render_template(
@@ -334,6 +336,35 @@ def dashboard():
         weather=weather,
         tab=tab,
     )
+    
+def get_random_quote():
+    conn = None
+    try:
+        # 1. Conectare la baza de date
+        conn = sqlite3.connect('busustyle.db')
+        cursor = conn.cursor()
+
+        # 2. Interogare pentru a selecta toate citatele
+        cursor.execute('SELECT text, author FROM DailyQuote')
+        quotes = cursor.fetchall()
+        
+        # 3. Verifică dacă există citate și alege unul aleatoriu
+        if quotes:
+            selected_quote_data = random.choice(quotes)
+            return {"text": selected_quote_data[0], "author": selected_quote_data[1]}
+        else:
+            # În cazul în care baza de date este goală, folosește un fallback
+            return {"text": "Alege un outfit care te inspiră!", "author": "BusuStyle"}
+
+    except sqlite3.Error as e:
+        # Gestionarea erorilor de bază de date
+        print(f"Eroare SQLite la preluarea citatului: {e}")
+        return {"text": "Eroare la baza de date.", "author": "Sistem"}
+        
+    finally:
+        # Asigură-te că închizi conexiunea, indiferent dacă a fost o eroare sau nu
+        if conn:
+            conn.close()
 
 
 @app.route("/add_item", methods=["GET", "POST"])
@@ -494,5 +525,6 @@ def showroom():
 
 if __name__ == "__main__":
     with app.app_context():
-        db.create_all()
+        db.create_all() 
+        init_db() 
     app.run(debug=True)
