@@ -317,10 +317,35 @@
 }
 
 .dashboard-hero {
-    z-index: 1;
-	background-repeat: no-repeat!important;
-    background-size: cover!important;
-	background-position: center center!important; 
+    /* Echivalentul pentru Bootstrap 'position-relative' */
+    position: relative; 
+    
+    /* Echivalentul pentru Bootstrap 'mb-5' (margin-bottom: 3rem) */
+    margin-bottom: 3rem; 
+    
+    /* Ne asigurăm că containerul ocupă toată lățimea */
+    width: 100%;
+    
+    /* Eliminăm orice spațiu nedorit în jurul imaginii */
+    padding: 0;
+}
+/* Declarația CSS pentru secțiunea Hero/Banner */
+.hero-banner {
+    /* Asigură-te că se întinde pe toată lățimea ecranului */
+    width: 100%; 
+    
+    /* Setează o înălțime fixă rezonabilă pentru banner (ajustați după nevoie) */
+    height: 250px; 
+    
+    /* Proprietățile de fundal pentru a afișa imaginea o singură dată și a umple spațiul */
+    background-image: url('../static/barbie-hero.png'); /* Schimbați calea */
+    background-repeat: no-repeat;
+    background-position: center center; 
+    background-size: cover; /* Foarte important: Forțează imaginea să acopere 100% din zonă */
+    
+    /* Asigură că nu există margini sau spații suplimentare */
+    margin: 0;
+    padding: 0;
 }
 
 .dashboard-nav {
