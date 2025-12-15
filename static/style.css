@@ -296,22 +296,24 @@
 }
 
 .gen-btn {
-    background: linear-gradient(135deg, #000000, #333333);
+    background: linear-gradient(135deg, #4a0038, #c02995);
     color: white;
     border: none;
     padding: 15px 40px;
     font-size: 1.2rem;
-    border-radius: 50px;
+    border-radius: 30px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     transition: all 0.3s;
     text-transform: uppercase;
     letter-spacing: 1px;
+	font-family: 'Georgia', sans-serif;
 }
 
 .gen-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
+
 .card-img-wrapper {
     background: linear-gradient(180deg, #fafafa, #f2f2f2);
 }
@@ -380,17 +382,21 @@
 }
 
 .btn {
-	background-color: #4a0038;
-	font-weight: 500;
-    transition: color 0.3s ease;
-	font-size: 1.4rem;
+	background: linear-gradient(135deg, #4a0038, #c02995);
+    color: white;
+    border: none;
+    font-size: 1.1rem;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 	font-family: 'Georgia', sans-serif;
-	color: #f9cfdf;
-	outline: none!important;
 }
 .btn:hover{
-	background-color: #ff54d4!important;
-	color:#4a0038;
+	transform: translateY(-2px);
+	color:white;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
 .btn.active {
     background-color: #d73aab;
@@ -398,6 +404,13 @@
     border-color: #6a1a54;
     box-shadow: none; 
 	outline: none!important;
+}
+.gen-text{
+	font-weight: 300; 
+	font-family: 'Georgia'; 
+	color: #4a0038;
+	border-radius: 50px;
+	margin: 3rem;
 }
 
 .avatar-wrapper {
@@ -419,5 +432,4 @@
   object-fit: cover;
   transform: translateY(22px);
 }
-
 
