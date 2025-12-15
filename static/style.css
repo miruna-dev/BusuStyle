@@ -307,15 +307,18 @@
 
 .gen-btn {
     background: linear-gradient(135deg, #4a0038, #c02995);
+    background: linear-gradient(135deg, #4a0038, #c02995);
     color: white;
     border: none;
     padding: 15px 40px;
     font-size: 1.2rem;
     border-radius: 30px;
+    border-radius: 30px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.2);
     transition: all 0.3s;
     text-transform: uppercase;
     letter-spacing: 1px;
+	font-family: 'Georgia', sans-serif;
 	font-family: 'Georgia', sans-serif;
 }
 
@@ -386,9 +389,21 @@
     transition: all 0.3s;
     text-transform: uppercase;
     letter-spacing: 1px;
+	background: linear-gradient(135deg, #4a0038, #c02995);
+    color: white;
+    border: none;
+    font-size: 1.1rem;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 	font-family: 'Georgia', sans-serif;
 }
 .btn:hover{
+	transform: translateY(-2px);
+	color:white;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 	transform: translateY(-2px);
 	color:white;
     box-shadow: 0 8px 20px rgba(0,0,0,0.3);
