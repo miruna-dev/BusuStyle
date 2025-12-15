@@ -29,14 +29,14 @@
             </div>
 
             <div class="outfit-item">
-                <img src="{{ url_for('static', filename=outfit.accessories.folder + '/' + outfit.accessories.filename) }}" alt="Accessories">
+                <img src="{{ url_for('static',filename=outfit.accessories.folder + '/' + outfit.accessories.filename) }}" alt="Accessories">
             </div>
 
         </div>
 
         <form method="POST"
-              action="{{ url_for('save_outfit') }}"
-              class="text-center mt-4">
+            action="{{ url_for('save_outfit') }}"
+            class="text-center mt-4">
 
             <input type="hidden" name="top_id" value="{{ outfit.top.id }}">
             <input type="hidden" name="bottom_id" value="{{ outfit.bottom.id }}">

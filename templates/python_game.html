@@ -38,7 +38,6 @@
     .player-box {
         width: 100%;
         height: 80px;
-        /* AFISARE IMAGINE LADA */
         background-image: url("{{ url_for('static', filename='images/player_box.png') }}"); 
         background-size: contain;
         background-repeat: no-repeat;
@@ -74,18 +73,15 @@
                 </div>
                 
                 <div class="col-md-6 play-area">
-                    
                     {% for i in range(1, 4) %}
                     <div class="game-zone">
                         
                         <div class="player-box"></div>
-                        
                         {% if not state.is_game_over and state.item_zone == i %}
                         <div class="item-icon"></div>
                         {% endif %}
 
                         <a href="{{ url_for('minigame_action', zone_clicked=i) }}" class="clickable-zone"></a>
-                        
                     </div>
                     {% endfor %}
                     

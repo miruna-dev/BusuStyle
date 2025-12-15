@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", () => {
   const scrollSection = document.querySelector(".scroll-magic");
 
   if (!titleEl || !descEl || !phoneEl || !scrollSection) {
-    console.warn("Scroll magic elements missing");
     return;
   }
 

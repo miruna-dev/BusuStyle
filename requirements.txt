@@ -2,8 +2,13 @@ Flask
 Flask-SQLAlchemy
 flask-login
 werkzeug
-google-genai
 rembg
 Pillow
 onnxruntime
-google-genai
+google-ai-generativelanguage
+google-api-core
+google-api-python-client
+google-auth
+google-auth-httplib2
+google-generativeai
+googleapis-common-protos

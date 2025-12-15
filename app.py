@@ -46,6 +46,7 @@ os.makedirs(PROCESSED_FOLDER, exist_ok=True)
 os.makedirs(os.path.join("static", "defaults"), exist_ok=True)
 
 
+
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
@@ -414,7 +415,9 @@ def add_item():
         is_waterproof = True if request.form.get("is_waterproof") else False
 
         file = request.files.get("image")
-        filename = None
+        if not file or file.filename == "":
+            flash("Trebuie să adaugi o imagine pentru haină.", "danger")
+            return redirect(url_for("add_item"))
 
         if file and file.filename != "":
             base_name = secure_filename(f"{current_user.id}_{file.filename}")
