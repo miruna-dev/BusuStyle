@@ -79,5 +79,26 @@ document.querySelectorAll(".accessory-item").forEach(el => {
   };
 });
 
+function syncHiddenInputs() {
+  const topItem = DATA.top[state.top];
+  const bottomItem = DATA.bottom[state.bottom];
+  const shoesItem = DATA.shoes[state.shoes];
+
+  document.getElementById("top-id").value = topItem ? topItem.id : "";
+  document.getElementById("bottom-id").value = bottomItem ? bottomItem.id : "";
+  document.getElementById("shoes-id").value = shoesItem ? shoesItem.id : "";
+
+  document.getElementById("outerwear-id").value = selectedOuterwear || "";
+  document.getElementById("accessories-id").value = selectedAccessory || "";
+}
+
+const form = document.getElementById("save-outfit-form");
+
+form.addEventListener("submit", e => {
+  syncHiddenInputs();
+});
+
+
+
 
 ["top", "bottom", "shoes"].forEach(update);
