@@ -1,103 +1,205 @@
+body {
+  position: relative;
+  background-image: url("/static/uploads/casabarbie (2).png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
 .showroom {
   display: grid;
-  grid-template-columns: 1fr 480px 1fr;
-  gap: 40px;
+  grid-template-columns: 1fr 1fr;
+  height: calc(100vh - 80px);
+  align-items: flex-start;
+  padding-top: 20px;
 }
 
-/* zona centrală */
+.left-panel {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
 .mannequin-zone {
   position: relative;
-  height: 700px;
+  width: 420px;
+  height: 640px;
+  margin-top: 0;
 }
 
-/* strat comun */
-.layer {
+.mannequin {
   position: absolute;
+  top: 80px;
   left: 50%;
   transform: translateX(-50%);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-/* manechin */
-.mannequin-layer {
-  top: 100px;
+  height: 480px;
   z-index: 1;
 }
 
-.mannequin-layer img {
-  height: 500px;
+.slot {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  z-index: 2;
 }
 
-/* TOP */
-.top-layer {
-  top: 40px;
+.top-slot {
+  top: 120px;
+  height: 200px;
+  z-index: 4;
+}
+
+.top-slot .item-img {
+  max-height: 160px;
+}
+
+.bottom-slot {
+  top: 270px;
+  height: 260px;
   z-index: 3;
 }
 
-.top-layer img {
-  height: 180px;
+.bottom-slot .item-img {
+  max-height: 240px;
 }
 
-/* BOTTOM */
-.bottom-layer {
-  top: 260px;
-  z-index: 2;
-}
-
-.bottom-layer img {
-  height: 220px;
-}
-
-/* SHOES */
-.shoes-layer {
-  top: 460px;
-  z-index: 2;
-}
-
-.shoes-layer img {
+.shoes-slot {
+  top: 470px;
   height: 120px;
+  z-index: 2;
 }
 
-/* săgeți */
+.shoes-slot .item-img {
+  max-height: 110px;
+}
+
+.item-img {
+  max-height: 100%;
+  max-width: 180px;
+  margin: auto;
+}
+
 .arrow {
-  background: none;
-  border: none;
-  font-size: 28px;
+  background: rgba(74,0,56,0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(74,0,56,0.8);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
   cursor: pointer;
-  user-select: none;
+  font-size: 18px;
+  color: #ff6ea3;
+  box-shadow: 0 6px 18px rgba(74,0,56,0.6);
 }
 
-.side-lists .list {
+.right-panel {
+  width: 420px;
+  max-width: 90%;
+  height: auto;
+  margin: 40px auto 0 auto;
+  padding: 36px;
+  display: grid;
+  grid-template-rows: auto auto auto;
+  background: linear-gradient(
+    to bottom right,
+    rgba(201,94,130,0.28),
+    rgba(255,110,163,0.2)
+  );
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 28px;
+  border: 1px solid rgba(74,0,56,0.55);
+  box-shadow: 0 24px 60px rgba(74,0,56,0.45);
+}
+
+.right-top {
+  margin-bottom: 28px;
+}
+
+.right-middle {
+  margin-bottom: 28px;
+}
+
+.right-panel h3 {
+  color: #ff6ea3;
+}
+
+.right-panel p,
+.right-panel .empty {
+  color: rgba(255,110,163,0.85);
+}
+
+.list {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
-  margin-bottom: 24px;
 }
 
-.side-lists img,
+.side-item {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  background: rgba(255,255,255,0.65);
+  border-radius: 12px;
+  cursor: pointer;
+}
+
 .placeholder {
   width: 80px;
   height: 80px;
-  cursor: pointer;
-  border-radius: 10px;
-  border: 2px solid transparent;
-  object-fit: contain;
-  background: #f9f9f9;
-}
-
-.side-lists img.active,
-.placeholder.active {
-  border-color: #6366f1;
-}
-
-.placeholder {
+  border: 2px dashed rgba(255,110,163,0.45);
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 12px;
-  text-align: center;
-  color: #666;
-  border: 2px dashed #ccc;
+  color: rgba(255,110,163,0.85);
+}
+
+#save-outfit-btn {
+  width: 100%;
+  padding: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  background: #4a0038;
+  color: #ff6ea3;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(74,0,56,0.6);
+  transition: all 0.2s ease;
+}
+
+#save-outfit-btn:hover {
+  background: #5e0046;
+  transform: translateY(-1px);
+}
+
+#save-outfit-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 14px rgba(74,0,56,0.45);
+}
+
+.selectable {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.selectable.active {
+  outline: 3px solid #4a0038;
+  border-radius: 12px;
+}
+
+.empty {
+  color: rgba(255,110,163,0.85);
+}
+
+.right-bottom {
+  margin-top: auto;
 }

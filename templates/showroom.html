@@ -3,7 +3,6 @@
 
 <link rel="stylesheet" href="{{ url_for('static', filename='showroom.css') }}">
 
-<!-- JSON DATA pentru JS -->
 <script id="data-json" type="application/json">
 {
   "top": {{ tops | tojson }},
@@ -16,63 +15,84 @@
 
 <div class="showroom">
 
-    <!-- STÂNGA -->
+  <div class="left-panel">
+
     <div class="mannequin-zone">
 
-  <div class="layer top-layer">
-    <button class="arrow left" data-type="top">‹</button>
-    <img id="top-img" class="layer-img">
-    <button class="arrow right" data-type="top">›</button>
+      <div class="slot top-slot">
+        <button class="arrow left" data-type="top">‹</button>
+        <img id="top-img" class="item-img">
+        <button class="arrow right" data-type="top">›</button>
+      </div>
+
+      <img class="mannequin" src="{{ url_for('static', filename='uploads/manechin.png') }}">
+
+      <div class="slot bottom-slot">
+        <button class="arrow left" data-type="bottom">‹</button>
+        <img id="bottom-img" class="item-img">
+        <button class="arrow right" data-type="bottom">›</button>
+      </div>
+
+      <div class="slot shoes-slot">
+        <button class="arrow left" data-type="shoes">‹</button>
+        <img id="shoes-img" class="item-img">
+        <button class="arrow right" data-type="shoes">›</button>
+      </div>
+
+    </div>
   </div>
 
-  <div class="layer mannequin-layer">
-    <img src="{{ url_for('static', filename='uploads/manechin.png') }}">
-  </div>
+<div class="right-panel">
 
-  <div class="layer bottom-layer">
-    <button class="arrow left" data-type="bottom">‹</button>
-    <img id="bottom-img" class="layer-img">
-    <button class="arrow right" data-type="bottom">›</button>
-  </div>
+    <div class="right-top">
+      <h3>Outerwear</h3>
 
-  <div class="layer shoes-layer">
-    <button class="arrow left" data-type="shoes">‹</button>
-    <img id="shoes-img" class="layer-img">
-    <button class="arrow right" data-type="shoes">›</button>
-  </div>
-
-</div>
-
-    <!-- DREAPTA -->
-    <div class="side-lists">
-
-        <h5>Outerwear</h5>
+      {% if outerwear %}
         <div class="list">
-            {% for i in outerwear %}
-                {% if i.image_filename %}
-                    <img src="{{ url_for('static', filename='uploads/processed/' + i.image_filename) }}">
-                {% else %}
-                    <div class="placeholder">{{ i.subcategory }}</div>
-                {% endif %}
+          {% for i in outerwear %}
+            {% if i.image_filename %}
+              <img class="side-item selectable outerwear-item"
+                  data-id="{{ i.id }}"
+                  src="{{ url_for('static', filename='uploads/processed/' + i.image_filename) }}">
             {% else %}
-                <p class="empty">Niciun outerwear</p>
-            {% endfor %}
+              <div class="placeholder selectable outerwear-item"
+                  data-id="{{ i.id }}">{{ i.subcategory }}</div>
+            {% endif %}
+          {% endfor %}
         </div>
+        <p class="empty outerwear-empty" style="display:none;">Niciun outerwear</p>
+      {% else %}
+        <p class="empty">Niciun outerwear</p>
+      {% endif %}
+    </div>
 
-        <h5>Accessories</h5>
+    <div class="right-middle">
+        <h3>Accessories</h3>
+        {% if accessories %}
         <div class="list">
             {% for i in accessories %}
                 {% if i.image_filename %}
-                    <img src="{{ url_for('static', filename='uploads/processed/' + i.image_filename) }}">
+                    <img class="side-item selectable accessory-item"
+                         data-id="{{ i.id }}"
+                         src="{{ url_for('static', filename='uploads/processed/' + i.image_filename) }}">
                 {% else %}
-                    <div class="placeholder">{{ i.subcategory }}</div>
+                    <div class="placeholder selectable accessory-item"
+                         data-id="{{ i.id }}">{{ i.subcategory }}</div>
                 {% endif %}
-            {% else %}
-                <p class="empty">Niciun accesoriu</p>
             {% endfor %}
         </div>
-
+        {% else %}
+            <p class="empty">Niciun accesoriu</p>
+        {% endif %}
     </div>
+
+
+<div class="save-outfit-wrapper">
+    <button id="save-outfit-btn">Save outfit</button>
+</div>
+
+
+
 </div>
 
 {% endblock %}
