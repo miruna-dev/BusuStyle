@@ -183,10 +183,10 @@ def generate_heuristic_outfit(clothes, weather=None):
 def item_to_dict(item):
     return {
         "id": item.id,
-        "image_filename": item.image_filename,
+        "image_filename": item.image_filename or "",
         "category": item.category,
-        "subcategory": item.subcategory,
-        "is_favorite": item.is_favorite,
+        "subcategory": item.subcategory or "",
+        "is_favorite": item.is_favorite
         "folder": item.folder,
     }
 
@@ -491,7 +491,6 @@ def showroom():
         outerwear=outerwear,
         accessories=accessories,
     )
-
 
 if __name__ == "__main__":
     with app.app_context():

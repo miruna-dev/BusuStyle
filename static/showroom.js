@@ -18,7 +18,6 @@ function update(type) {
   }
 
   const item = list[state[type]];
-
   if (!item.image_filename) {
     img.style.display = "none";
     return;
@@ -28,46 +27,44 @@ function update(type) {
   img.src = `/static/uploads/processed/${item.image_filename}`;
 }
 
-document.querySelectorAll(".carousel").forEach(c => {
-  const type = c.dataset.type;
-  if (!type) return;
-
-  c.querySelector(".left").onclick = () => {
-    state[type] =
-      (state[type] - 1 + DATA[type].length) % DATA[type].length;
-    update(type);
-  };
-
-  c.querySelector(".right").onclick = () => {
-    state[type] =
-      (state[type] + 1) % DATA[type].length;
-    update(type);
-  };
-
-  update(type);
-});
-
-document.querySelectorAll(".list img, .placeholder").forEach(el => {
-  el.onclick = () => {
-    el.parentElement
-      .querySelectorAll(".active")
-      .forEach(x => x.classList.remove("active"));
-    el.classList.add("active");
-  };
-});
-
 document.querySelectorAll(".arrow").forEach(btn => {
   const type = btn.dataset.type;
 
   btn.onclick = () => {
     if (!DATA[type] || DATA[type].length === 0) return;
 
-    if (btn.classList.contains("left")) {
-      state[type] = (state[type] - 1 + DATA[type].length) % DATA[type].length;
-    } else {
-      state[type] = (state[type] + 1) % DATA[type].length;
-    }
+    state[type] =
+      btn.classList.contains("left")
+        ? (state[type] - 1 + DATA[type].length) % DATA[type].length
+        : (state[type] + 1) % DATA[type].length;
 
     update(type);
   };
 });
+let selectedOuterwear = null;
+let selectedAccessory = null;
+
+// OUTERWEAR
+document.querySelectorAll(".outerwear-item").forEach(el => {
+  el.onclick = () => {
+    document
+      .querySelectorAll(".outerwear-item")
+      .forEach(i => i.classList.remove("active"));
+
+    el.classList.add("active");
+    selectedOuterwear = el.dataset.id;
+  };
+});
+
+// ACCESSORIES
+document.querySelectorAll(".accessory-item").forEach(el => {
+  el.onclick = () => {
+    document
+      .querySelectorAll(".accessory-item")
+      .forEach(i => i.classList.remove("active"));
+
+    el.classList.add("active");
+    selectedAccessory = el.dataset.id;
+  };
+});
+["top", "bottom", "shoes"].forEach(update);
