@@ -10,7 +10,7 @@
 
     <div class="position-absolute start-50 translate-middle-x" style="top: 200px;">
         <div class="rounded-circle bg-white d-flex align-items-center justify-content-center shadow border"
-             style="width:110px;height:110px;font-size:48px;">
+            style="width:110px;height:110px;font-size:48px;">
             👤
         </div>
     </div>
@@ -69,11 +69,11 @@
         {% endif %}
 
         <a href="{{ url_for('add_item') }}"
-           class="btn btn-outline-primary mt-2">
+            class="btn btn-outline-primary mt-2">
             ➕ Adaugă haină
         </a>
         <a href="{{ url_for('showroom') }}"
-           class="btn btn-outline-dark mt-2">
+            class="btn btn-outline-dark mt-2">
             🧍 Showroom
         </a>
 
@@ -83,19 +83,19 @@
 <ul class="nav nav-pills justify-content-center mb-5 gap-2">
     <li class="nav-item">
         <a class="nav-link {% if tab == 'closet' %}active{% endif %}"
-           href="{{ url_for('dashboard', tab='closet') }}">
+            href="{{ url_for('dashboard', tab='closet') }}">
             Closet
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link {% if tab == 'outfits' %}active{% endif %}"
-           href="{{ url_for('dashboard', tab='outfits') }}">
+            href="{{ url_for('dashboard', tab='outfits') }}">
             Outfits
         </a>
     </li>
     <li class="nav-item">
         <a class="nav-link {% if tab == 'loved' %}active{% endif %}"
-           href="{{ url_for('dashboard', tab='loved') }}">
+            href="{{ url_for('dashboard', tab='loved') }}">
             Loved
         </a>
     </li>
@@ -111,8 +111,8 @@
             <div class="card h-100 position-relative shadow-sm">
 
                 <form method="POST"
-                      action="{{ url_for('toggle_favorite', item_id=item.id, tab=tab) }}"
-                      class="position-absolute top-0 start-0 m-2">
+                    action="{{ url_for('toggle_favorite', item_id=item.id, tab=tab) }}"
+                    class="position-absolute top-0 start-0 m-2" style="z-index: 5;">
                     <button type="submit"
                             class="btn btn-sm p-0 border-0 bg-transparent fs-5">
                         {% if item.is_favorite %}
@@ -123,6 +123,17 @@
                     </button>
                 </form>
 
+                <form method="POST"
+                    action="{{ url_for('delete_item', item_id=item.id, tab=tab) }}"
+                    class="position-absolute top-0 end-0 m-2" style="z-index: 5;">
+                    <button type="submit"
+                            class="btn btn-sm btn-danger p-1"
+                            onclick="return confirm('Ești sigur că vrei să ștergi articolul {{ item.subcategory }} ({{ item.color }})?');"
+                            style="font-size: 0.8rem; line-height: 1;">
+                        ❌ ȘTERGE
+                    </button>
+                </form>
+
                 {% if item.image_filename %}
                     <div class="card-img-wrapper">
                         <img src="{{ url_for('static', filename='uploads/processed/' + item.image_filename) }}"
@@ -130,7 +141,7 @@
                     </div>
                 {% else %}
                     <div class="d-flex align-items-center justify-content-center bg-light"
-                             style="height:180px;font-size:48px;">
+                                 style="height:180px;font-size:48px;">
                         👕
                     </div>
                 {% endif %}
