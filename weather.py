@@ -30,7 +30,7 @@ def get_current_weather(city="Bucharest"):
         "temperature": round(data["main"]["temp"]),
         "humidity": data["main"]["humidity"],
         "wind_speed": data["wind"]["speed"],
-        "condition": weather_main,   # rain / snow / clear / clouds
+        "condition": weather_main,   # rain/snow/clear/clouds
         "is_rainy": weather_main in ["rain", "drizzle", "thunderstorm"],
         "is_snowy": weather_main == "snow",
         "season": get_season()

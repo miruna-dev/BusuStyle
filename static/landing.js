@@ -3,18 +3,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const sections = [
     {
       title: "Create outfit collages",
-      desc: "Combină hainele tale pe un canvas și creează outfit-uri unice.",
-      phone: "Canvas outfits"
+      desc: "Combină hainele aici până îți iese o ținută de Oscar. Sau până te enervezi și iei tot hanoracul ăla negru.",
+      image: "/static/uploads/busufainosag.png"
     },
     {
       title: "Your personal dressing room",
-      desc: "Vezi toate hainele tale într-un singur loc și construiește outfit-uri rapid.",
-      phone: "Closet view"
+      desc: "Te aranjăm noi",
+      image: "/static/uploads/netiiubita.png"
     },
     {
       title: "Realistic virtual try on",
-      desc: "Testează combinații înainte să le porți sau să le cumperi.",
-      phone: "Try on preview"
+      desc: "Vezi cum îți stă cu ele fără să te dezbraci.",
+      image: "/static/uploads/barbiepreview.png"
     }
   ];
 
@@ -28,10 +28,12 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   }
 
+  const imgEl = document.getElementById("magic-phone-img");
+
   function updateContent(index) {
     titleEl.textContent = sections[index].title;
     descEl.textContent = sections[index].desc;
-    phoneEl.textContent = sections[index].phone;
+    imgEl.src = sections[index].image;
   }
 
   updateContent(0);

@@ -163,27 +163,30 @@ body {
 }
 
 #save-outfit-btn {
+	background: linear-gradient(135deg, #4a0038, #c02995);
+    color: white;
+    border: none;
+    font-size: 1.1rem;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+	font-family: 'Georgia', sans-serif;
   width: 100%;
-  padding: 16px;
-  font-size: 16px;
-  font-weight: 600;
-  background: #4a0038;
-  color: #ff6ea3;
-  border: none;
-  border-radius: 16px;
-  cursor: pointer;
-  box-shadow: 0 12px 28px rgba(74,0,56,0.6);
-  transition: all 0.2s ease;
+  display: block;
 }
-
-#save-outfit-btn:hover {
-  background: #5e0046;
-  transform: translateY(-1px);
+#save-outfit-btn:hover{
+	transform: translateY(-2px);
+	color:white;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
-
-#save-outfit-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 6px 14px rgba(74,0,56,0.45);
+#save-outfit-btn.active {
+    background-color: #d73aab;
+    color: #ffffff;
+    border-color: #6a1a54;
+    box-shadow: none; 
+	outline: none!important;
 }
 
 .selectable {
@@ -202,4 +205,13 @@ body {
 
 .right-bottom {
   margin-top: auto;
+}
+
+.right-panel h3 {
+  color: #ffffff;
+}
+
+.right-panel p,
+.right-panel .empty {
+  color: rgba(255,255,255,0.85);
 }
