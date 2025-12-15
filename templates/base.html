@@ -17,7 +17,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     {% if current_user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Dulapul Meu</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Acasa</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('add_item') }}">Adauga Haina</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('generator') }}">Generator</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>

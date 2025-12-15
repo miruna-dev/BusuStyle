@@ -443,3 +443,6 @@
   transform: translateY(22px);
 }
 
+body {
+	background-color: #ffbfd6;
+}
