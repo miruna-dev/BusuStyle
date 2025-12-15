@@ -2,8 +2,7 @@
 {% block content %}
 
 <div class="dashboard-hero">
-
-    <div class="hero-banner">
+  <div class="hero-banner">
     </div>
 
    <div class="position-absolute start-50 translate-middle-x" style="top: 200px;">
@@ -11,7 +10,6 @@
             <img src="{{ url_for('static', filename='uploads/avatar.png') }}" alt="Avatar">
         </div>
     </div>
-</div>
 
 <div class="text-center" style="margin-top: 90px; margin-bottom: 40px;">
     <h4 class="mb-1">
@@ -24,6 +22,7 @@
             <div class="small text-muted mt-1">— {{ quote.author }}</div>
         {% endif %}
     {% endif %}
+</div>
 </div>
 
 <div class="d-flex justify-content-center mb-4">
@@ -79,19 +78,19 @@
 
 <ul class="nav nav-pills justify-content-center mb-5 gap-2">
     <li>
-        <a class="btn {% if tab == 'closet' %}active{% endif %}"
+        <a class="btn-2 {% if tab == 'closet' %}active{% endif %}"
             href="{{ url_for('dashboard', tab='closet') }}">
             Closet
         </a>
     </li>
     <li>
-        <a class="btn {% if tab == 'outfits' %}active{% endif %}"
+        <a class="btn-2 {% if tab == 'outfits' %}active{% endif %}"
             href="{{ url_for('dashboard', tab='outfits') }}">
             Outfits
         </a>
     </li>
     <li>
-        <a class="btn {% if tab == 'loved' %}active{% endif %}"
+        <a class="btn-2 {% if tab == 'loved' %}active{% endif %}"
             href="{{ url_for('dashboard', tab='loved') }}">
             Loved
         </a>
@@ -111,7 +110,7 @@
                     action="{{ url_for('toggle_favorite', item_id=item.id, tab=tab) }}"
                     class="position-absolute top-0 start-0 m-2" style="z-index: 5;">
                     <button type="submit"
-                            class="btn btn-sm p-0 border-0 bg-transparent fs-5">
+                            class=" btn-like">
                         {% if item.is_favorite %}
                             ❤️
                         {% else %}
@@ -124,10 +123,10 @@
                     action="{{ url_for('delete_item', item_id=item.id, tab=tab) }}"
                     class="position-absolute top-0 end-0 m-2" style="z-index: 5;">
                     <button type="submit"
-                            class="btn btn-sm btn-danger p-1"
+                            class="btn-delete"
                             onclick="return confirm('Ești sigur că vrei să ștergi articolul {{ item.subcategory }} ({{ item.color }})?');"
                             style="font-size: 0.8rem; line-height: 1;">
-                        ❌ ȘTERGE
+                        ✖️
                     </button>
                 </form>
 
@@ -139,7 +138,6 @@
                 {% else %}
                     <div class="d-flex align-items-center justify-content-center bg-light"
                                  style="height:180px;font-size:48px;">
-                        👕
                     </div>
                 {% endif %}
 

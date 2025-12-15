@@ -59,18 +59,18 @@
 <div class="container mt-4">
     <div class="row justify-content-center">
         <div class="col-md-10">
-            <h2 class="text-center mb-4">Whack-a-Zone Challenge (Scor: {{ state.score }} | Nivel: {{ state.level }} / 6)</h2>
+            <h2 class="gen-text">Scor: {{ state.score }} | Nivel: {{ state.level }} / 6</h2>
 
             {% if state.is_game_over %}
-            <div class="alert alert-success text-center mb-4">
-                <h1>🎉 AI CÂȘTIGAT! 🎉</h1>
+            <div class="gen-text">
+                <h1>AI CÂȘTIGAT!</h1>
             </div>
             {% endif %}
 
             <div class="row g-0 border border-4 shadow-lg">
                 
                 <div class="col-md-6 game-image-area">
-                    <p class="text-center pt-2 fw-bold">PROGRES (Nivel {{ state.level }})</p>
+                    <p class="text-center pt-2 fw-bold"></p>
                 </div>
                 
                 <div class="col-md-6 play-area">

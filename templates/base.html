@@ -17,7 +17,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     {% if current_user.is_authenticated %}
-                        <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Dulapul Meu</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url_for('dashboard') }}">Acasa</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('add_item') }}">Adauga Haina</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('generator') }}">Generator</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ url_for('logout') }}">Logout</a></li>
@@ -56,11 +56,11 @@
             <span style="cursor:pointer" onclick="toggleChat()">✖</span>
         </div>
         <div class="chat-body d-flex flex-column" id="chat-messages">
-            <div class="msg msg-ai">Buna, numele meu este Busisor si sunt asistentul tau virtual astazi, cu ce te pot ajuta?</div>
+            <div class="chat-msg">Buna, numele meu este Busisor si sunt asistentul tau virtual astazi, cu ce te pot ajuta?</div>
         </div>
         <div class="chat-footer">
             <input type="text" id="chat-input" class="form-control" placeholder="Scrie aici..." onkeypress="handleEnter(event)">
-            <button class="btn btn-primary" onclick="sendMessage()">➤</button>
+            <button class="btn" onclick="sendMessage()">➤</button>
         </div>
     </div>
 

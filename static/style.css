@@ -250,6 +250,35 @@
   padding: 15px;
   font-weight: bold;
 }
+.chat-msg{
+	background: #ff54d4; 
+	color: #4a0038; 
+	padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+}
+.msg-ai{
+	background: #ff54d4; 
+	color: #4a0038; 
+	padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+}
+.msg-user{
+	background: #4a0038; 
+	color: #f9cfdf; 
+	padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 15px;
+	align-self: flex-end;
+	margin-left: auto;
+}
+.chat-header { 
+  background: #ff54d4; 
+  color: #4a0038; 
+  padding: 15px; 
+  font-weight: bold; 
+}
 
 .chat-body {
   flex: 1;
@@ -272,19 +301,6 @@
   padding: 8px 12px;
   border-radius: 10px;
   max-width: 80%;
-}
-
-.msg-user {
-  background: #0d6efd;
-  color: white;
-  align-self: flex-end;
-  margin-left: auto;
-}
-
-.msg-ai {
-  background: #e9ecef;
-  color: #333;
-  align-self: flex-start;
 }
 
 .generator-container {
@@ -349,15 +365,22 @@
   padding: 0;
 }
 
+.dashboard-hero {
+    position: relative; 
+    margin-bottom: 3rem; 
+    width: 100%;
+    padding: 0;
+}
+
 .hero-banner {
-  width: 100%;
-  height: 250px;
-  background-image: url('../static/barbie-hero.png');
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  margin: 0;
-  padding: 0;
+    width: 100%; 
+    height: 250px; 
+    background-image: url('../static/barbie-hero.png');
+    background-repeat: no-repeat;
+    background-position: center center; 
+    background-size: cover; 
+    margin: 0;
+    padding: 0;
 }
 
 .dashboard-nav {
@@ -417,13 +440,13 @@
   box-shadow: none;
   outline: none!important;
 }
-
-.gen-text {
-  font-weight: 300;
-  font-family: 'Georgia';
-  color: rgba(74, 0, 56, 0.75);
-  border-radius: 50px;
-  margin: 3rem;
+.gen-text{
+	font-weight: 300; 
+	font-family: 'Georgia'; 
+	color: #4a0038;
+	border-radius: 50px;
+	margin: 3rem;
+	text-align:center;
 }
 
 .avatar-wrapper {
@@ -494,3 +517,63 @@ p {
   color: #4a0038;
 }
 
+body {
+	background-color: #ffbfd6;
+}
+
+.btn-delete, .btn-like {
+    width: 50px; 
+    height: 50px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background: transparent;
+    color: #4a0038;
+    font-weight: bold;
+    border: none;
+    font-size: 2rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0; 
+}
+
+.btn-delete {
+    display: block; 
+    margin-left: auto;
+    margin-right: 0;
+
+}
+
+.btn-delete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.btn-like:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.btn-2 {
+    background: linear-gradient(180deg, transparent, #c02995);
+    color: #4a0038; 
+    border: 1px solid #4a0038; 
+    outline: none; 
+    font-size: 1.1rem;
+    border-radius: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+	text-decoration: none;
+	padding: 10px;
+}
+
+.btn-2:hover {
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    transform: translateY(-2px);
+}
