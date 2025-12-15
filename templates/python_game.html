@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <h2 class="text-center mb-4">Whack-a-Zone Challenge (Scor: {{ state.score }} | Nivel: {{ state.level }} / 6)</h2>
+
+            {% if state.is_game_over %}
+            <div class="alert alert-success text-center mb-4">
+                <h1>🎉 AI CÂȘTIGAT! 🎉</h1>
+                <p>Apasa Reset pentru a juca din nou.</p>
+            </div>
+            {% endif %}
+
+            <div class="row g-0 border border-4 shadow-lg">
+                
+                <div class="col-md-6 game-image-area" 
+                     style="background-image: url('{{ url_for('static', filename='images/' + state.image) }}');">
+                    <p class="text-center pt-2 fw-bold">PROGRES (Nivel {{ state.level }})</p>
+                </div>
+                
+                <div class="col-md-6 play-area">
+                    
+                    {% for i in range(1, 4) %}
+                    <div class="game-zone">
+                        
+                        <div class="player-box" 
+                             style="background-image: url('{{ url_for('static', filename='images/player_box.png') }}');"></div>
+                        
+                        {% if not state.is_game_over and state.item_zone == i %}
+                        <div class="item-icon" 
+                             style="background-image: url('{{ url_for('static', filename='images/item.png') }}');"></div>
+                        {% endif %}
+
+                        <a href="{{ url_for('minigame_action', zone_clicked=i) }}" class="clickable-zone"></a>
+                        
+                    </div>
+                    {% endfor %}
+                    
+                </div>
+            </div>
+            
+            <div class="text-center mt-4 mb-5">
+                <a href="{{ url_for('minigame_reset') }}" class="btn btn-sm btn-danger mx-3">
+                    Reset Joc
+                </a>
+                
+                <p class="text-muted small mt-3">
+                    Instrucțiuni: Apasă rapid pe zona (Stânga, Mijloc, Dreapta) în care apare obiectul.
+                </p>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+{% endblock %}
