@@ -3,14 +3,13 @@
 {% block content %}
 <div class="generator-container">
     <h2 class="gen-text">Ținuta ta de astăzi</h2>
-
     <form method="POST">
         <button type="submit" class="gen-btn">
-        		Generează Outfit
+            Generează Outfit
         </button>
     </form>
 
-   {% if is_post_request %}
+    {% if is_post_request %}
         <div class="outfit-display">
             
             <div class="outfit-item">
@@ -34,10 +33,21 @@
             </div>
 
         </div>
-    {% else %}
-        <div class="gen-text">
-            <p>Apasă pe buton pentru a genera o combinație unică.</p>
-        </div>
+
+        <form method="POST"
+              action="{{ url_for('save_outfit') }}"
+              class="text-center mt-4">
+
+            <input type="hidden" name="top_id" value="{{ outfit.top.id }}">
+            <input type="hidden" name="bottom_id" value="{{ outfit.bottom.id }}">
+            <input type="hidden" name="outerwear_id" value="{{ outfit.outerwear.id }}">
+            <input type="hidden" name="shoes_id" value="{{ outfit.shoes.id }}">
+            <input type="hidden" name="accessories_id" value="{{ outfit.accessories.id }}">
+
+            <button type="submit" class="btn-2">
+                Salvează outfit
+            </button>
+        </form>
     {% endif %}
 </div>
 {% endblock %}
