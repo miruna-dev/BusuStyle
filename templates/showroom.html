@@ -88,7 +88,15 @@
 
 
 <div class="save-outfit-wrapper">
-    <button id="save-outfit-btn">Save outfit</button>
+  <form method="POST" action="{{ url_for('save_outfit') }}" id="save-outfit-form">
+    <input type="hidden" name="top_id" id="top-id">
+    <input type="hidden" name="bottom_id" id="bottom-id">
+    <input type="hidden" name="shoes_id" id="shoes-id">
+    <input type="hidden" name="outerwear_id" id="outerwear-id">
+    <input type="hidden" name="accessories_id" id="accessories-id">
+
+    <button type="submit" id="save-outfit-btn">Save outfit</button>
+  </form>
 </div>
 
 
