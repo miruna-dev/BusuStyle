@@ -5,7 +5,7 @@
 
     <div style="
         height:240px;
-        background:linear-gradient(120deg,#4f46e5,#9333ea);
+        background: url('../static/barbie-hero.png');
     "></div>
 
     <div class="position-absolute start-50 translate-middle-x" style="top: 200px;">
@@ -30,8 +30,8 @@
 </div>
 
 <div class="d-flex justify-content-center mb-4">
-    <a href="{{ url_for('minigame_render') }}" class="btn btn-warning btn-lg shadow">
-        🕹️ Joacă Beer Catch Challenge!
+    <a href="{{ url_for('minigame_render') }}" class="btn">
+        Beers catcher
     </a>
 </div>
 
@@ -69,32 +69,32 @@
         {% endif %}
 
         <a href="{{ url_for('add_item') }}"
-            class="btn btn-outline-primary mt-2">
-            ➕ Adaugă haină
+            class="btn">
+            + Adaugă haină
         </a>
         <a href="{{ url_for('showroom') }}"
-            class="btn btn-outline-dark mt-2">
-            🧍 Showroom
+            class="btn">
+            Showroom
         </a>
 
     </div>
 </div>
 
 <ul class="nav nav-pills justify-content-center mb-5 gap-2">
-    <li class="nav-item">
-        <a class="nav-link {% if tab == 'closet' %}active{% endif %}"
+    <li>
+        <a class="btn {% if tab == 'closet' %}active{% endif %}"
             href="{{ url_for('dashboard', tab='closet') }}">
             Closet
         </a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link {% if tab == 'outfits' %}active{% endif %}"
+    <li>
+        <a class="btn {% if tab == 'outfits' %}active{% endif %}"
             href="{{ url_for('dashboard', tab='outfits') }}">
             Outfits
         </a>
     </li>
-    <li class="nav-item">
-        <a class="nav-link {% if tab == 'loved' %}active{% endif %}"
+    <li>
+        <a class="btn {% if tab == 'loved' %}active{% endif %}"
             href="{{ url_for('dashboard', tab='loved') }}">
             Loved
         </a>
