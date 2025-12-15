@@ -77,6 +77,24 @@ class ClothingItem(db.Model):
     def folder(self):
         return "uploads/processed"
 
+class Outfit(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+
+    top_id = db.Column(db.Integer, db.ForeignKey("clothing_item.id"))
+    bottom_id = db.Column(db.Integer, db.ForeignKey("clothing_item.id"))
+    outerwear_id = db.Column(db.Integer, db.ForeignKey("clothing_item.id"))
+    shoes_id = db.Column(db.Integer, db.ForeignKey("clothing_item.id"))
+    accessories_id = db.Column(db.Integer, db.ForeignKey("clothing_item.id"))
+
+    top = db.relationship("ClothingItem", foreign_keys=[top_id])
+    bottom = db.relationship("ClothingItem", foreign_keys=[bottom_id])
+    outerwear = db.relationship("ClothingItem", foreign_keys=[outerwear_id])
+    shoes = db.relationship("ClothingItem", foreign_keys=[shoes_id])
+    accessories = db.relationship("ClothingItem", foreign_keys=[accessories_id])
+
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+
 
 with app.app_context():
     db.create_all()
@@ -102,12 +120,18 @@ def get_item_or_default(items_list, default_filename):
     if items_list:
         item = random.choice(items_list)
         return {
+            "id": item.id,
             "filename": item.image_filename,
             "is_default": False,
             "folder": item.folder,
         }
     else:
-        return {"filename": default_filename, "is_default": True, "folder": "defaults"}
+        return {
+            "id": None,
+            "filename": default_filename,
+            "is_default": True,
+            "folder": "defaults",
+        }
 
 
 def generate_heuristic_outfit(clothes, weather=None):
@@ -172,12 +196,18 @@ def generate_heuristic_outfit(clothes, weather=None):
     if outerwear_needed and outerwear:
         selected_outerwear = random.choice(outerwear)
         outfit["outerwear"] = {
+            "id": selected_outerwear.id,
             "filename": selected_outerwear.image_filename,
             "is_default": False,
             "folder": selected_outerwear.folder
         }
     else:
-        outfit["outerwear"] = {"filename": "empty_outerwear.png", "is_default": True, "folder": "defaults"}
+        outfit["outerwear"] = {
+            "id": None,
+            "filename": "empty_outerwear.png",
+            "is_default": True,
+            "folder": "defaults"
+        }
         
     return outfit
 
@@ -318,10 +348,19 @@ def logout():
 def dashboard():
     tab = request.args.get("tab", "closet")
 
+    clothes = []
+    outfits = []
+
     if tab == "loved":
         clothes = ClothingItem.query.filter_by(
             user_id=current_user.id, is_favorite=True
         ).all()
+
+    elif tab == "outfits":
+        outfits = Outfit.query.filter_by(user_id=current_user.id)\
+                              .order_by(Outfit.created_at.desc())\
+                              .all()
+
     else:
         clothes = ClothingItem.query.filter_by(user_id=current_user.id).all()
 
@@ -331,6 +370,7 @@ def dashboard():
     return render_template(
         "dashboard.html",
         clothes=clothes,
+        outfits=outfits,
         quote=quote,
         user=current_user,
         weather=weather,
@@ -340,29 +380,23 @@ def dashboard():
 def get_random_quote():
     conn = None
     try:
-        # 1. Conectare la baza de date
         conn = sqlite3.connect('busustyle.db')
         cursor = conn.cursor()
 
-        # 2. Interogare pentru a selecta toate citatele
         cursor.execute('SELECT text, author FROM DailyQuote')
         quotes = cursor.fetchall()
         
-        # 3. Verifică dacă există citate și alege unul aleatoriu
         if quotes:
             selected_quote_data = random.choice(quotes)
             return {"text": selected_quote_data[0], "author": selected_quote_data[1]}
         else:
-            # În cazul în care baza de date este goală, folosește un fallback
             return {"text": "Alege un outfit care te inspiră!", "author": "BusuStyle"}
 
     except sqlite3.Error as e:
-        # Gestionarea erorilor de bază de date
         print(f"Eroare SQLite la preluarea citatului: {e}")
         return {"text": "Eroare la baza de date.", "author": "Sistem"}
         
     finally:
-        # Asigură-te că închizi conexiunea, indiferent dacă a fost o eroare sau nu
         if conn:
             conn.close()
 
@@ -449,13 +483,21 @@ def delete_item(item_id):
                 os.remove(processed_path)
         db.session.delete(item)
         db.session.commit()
-        flash("Articol șters cu succes.", "success")
-    else:
-        flash("Nu s-a putut șterge articolul.", "danger")
         
     tab = request.args.get("tab", "closet")
     return redirect(url_for("dashboard", tab=tab))
 
+@app.route("/delete_outfit/<int:outfit_id>", methods=["POST"])
+@login_required
+def delete_outfit(outfit_id):
+    outfit = Outfit.query.get(outfit_id)
+
+    if not outfit or outfit.user_id != current_user.id:
+        return redirect(url_for("dashboard", tab="outfits"))
+
+    db.session.delete(outfit)
+    db.session.commit()
+    return redirect(url_for("dashboard", tab="outfits"))
 
 @app.route("/chat", methods=["POST"])
 def chat():
@@ -474,8 +516,12 @@ REGULI IMPORTANTE:
         full_prompt = f"{system_instruction}\n\nUser: {user_message}\nAssistant:"
         response = model.generate_content(full_prompt)
         return {"response": response.text}
-    except Exception:
-        return {"response": "Eroare la conectare AI."}
+    except Exception as e:
+        if "Quota exceeded" in str(e):
+            return {
+                "response": "Am rămas fără energie AI azi :(( Revino mâine sau cere-mi un sfat clasic!"
+            }
+        return {"response": "Eroare AI."}
 
 
 @app.route("/generator", methods=["GET", "POST"])
@@ -523,6 +569,24 @@ def showroom():
         outerwear=outerwear,
         accessories=accessories,
     )
+
+@app.route("/save_outfit", methods=["POST"])
+@login_required
+def save_outfit():
+    outfit = Outfit(
+        user_id=current_user.id,
+        top_id=request.form.get("top_id"),
+        bottom_id=request.form.get("bottom_id"),
+        outerwear_id=request.form.get("outerwear_id"),
+        shoes_id=request.form.get("shoes_id"),
+        accessories_id=request.form.get("accessories_id"),
+    )
+
+    db.session.add(outfit)
+    db.session.commit()
+
+    return redirect(url_for("dashboard", tab="outfits"))
+
 
 if __name__ == "__main__":
     with app.app_context():

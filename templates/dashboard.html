@@ -32,7 +32,7 @@
 </div>
 
 <div class="d-flex justify-content-center mb-5">
-    <div class="border rounded px-4 py-3 text-center" style="min-width:320px;">
+    <div class="border rounded px-4 py-3 text-center bg-white" style="min-width:320px;">
 
         <div class="d-flex justify-content-center align-items-center gap-3 mb-2">
             <div style="font-size:42px;">
@@ -165,6 +165,67 @@
 {% endif %}
 
 </div>
-<div style="height: 120px;"></div>
+<div>
+    {% if tab == 'outfits' %}
+        {% if outfits %}
+            <div class="row g-4">
+                {% for o in outfits %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card p-3 shadow-sm position-relative">
+                        <form method="POST"
+                            action="{{ url_for('delete_outfit', outfit_id=o.id) }}"
+                            class="position-absolute top-0 end-0 m-2"
+                            style="z-index: 5;">
+                            <button type="submit"
+                                    class="btn-delete"
+                                    onclick="return confirm('Șterg acest outfit?');"
+                                    style="font-size: 0.8rem; line-height: 1;">
+                                ✖️
+                            </button>
+                        </form>
+                        <div class="d-flex justify-content-center gap-2 flex-wrap mb-3">
 
+                            {% if o.outerwear %}
+                                <img src="{{ url_for('static', filename='uploads/processed/' + o.outerwear.image_filename) }}"
+                                    class="clothing-img" style="height:120px;">
+                            {% endif %}
+
+                            {% if o.top %}
+                                <img src="{{ url_for('static', filename='uploads/processed/' + o.top.image_filename) }}"
+                                    class="clothing-img" style="height:120px;">
+                            {% endif %}
+
+                            {% if o.bottom %}
+                                <img src="{{ url_for('static', filename='uploads/processed/' + o.bottom.image_filename) }}"
+                                    class="clothing-img" style="height:120px;">
+                            {% endif %}
+
+                            {% if o.shoes %}
+                                <img src="{{ url_for('static', filename='uploads/processed/' + o.shoes.image_filename) }}"
+                                    class="clothing-img" style="height:120px;">
+                            {% endif %}
+
+                            {% if o.accessories %}
+                                <img src="{{ url_for('static', filename='uploads/processed/' + o.accessories.image_filename) }}"
+                                    class="clothing-img" style="height:120px;">
+                            {% endif %}
+
+                        </div>
+
+                        <div class="text-center small text-muted">
+                            Salvat pe {{ o.created_at.strftime('%d %b %Y') }}
+                        </div>
+
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center text-muted py-5">
+                Nu ai outfituri salvate încă.
+            </div>
+        {% endif %}
+    {% endif %}
+</div>
+<div style="height: 120px;"></div>
 {% endblock %}
