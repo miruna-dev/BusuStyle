@@ -148,7 +148,7 @@ def generate_heuristic_outfit(clothes, weather=None):
     all_bottoms = [c for c in clothes if c.category == "Bottom"]
     all_outerwear = [c for c in clothes if c.category == "Outerwear"]
     all_shoes = [c for c in clothes if c.category == "Incaltaminte"]
-    all_accessories = [c for c in clothes if c.category == "Accesorii"]
+    all_accessories = [c for c in clothes if c.category in ("Accesorii", "Accessory")]
     
     outerwear_needed = current_temp < 15 or is_rainy
 
@@ -481,7 +481,8 @@ def showroom():
     bottoms = [item_to_dict(i) for i in items if i.category == "Bottom"]
     shoes = [item_to_dict(i) for i in items if i.category == "Incaltaminte"]
     outerwear = [item_to_dict(i) for i in items if i.category == "Outerwear"]
-    accessories = [item_to_dict(i) for i in items if i.category == "Accesorii"]
+    accessories = [item_to_dict(i) for i in items if i.category in ("Accesorii", "Accessory")]
+
 
     return render_template(
         "showroom.html",
