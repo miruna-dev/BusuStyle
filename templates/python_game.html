@@ -64,7 +64,6 @@
             {% if state.is_game_over %}
             <div class="alert alert-success text-center mb-4">
                 <h1>🎉 AI CÂȘTIGAT! 🎉</h1>
-                <p>Apasa Reset pentru a juca din nou.</p>
             </div>
             {% endif %}
 
@@ -97,10 +96,6 @@
                 <a href="{{ url_for('minigame_reset') }}" class="btn btn-sm btn-danger mx-3">
                     Reset Joc
                 </a>
-                
-                <p class="text-muted small mt-3">
-                    Instrucțiuni: Apasă rapid pe zona (Stânga, Mijloc, Dreapta) în care apare obiectul.
-                </p>
             </div>
             
         </div>
