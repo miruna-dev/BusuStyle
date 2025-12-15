@@ -111,7 +111,7 @@
                     action="{{ url_for('toggle_favorite', item_id=item.id, tab=tab) }}"
                     class="position-absolute top-0 start-0 m-2" style="z-index: 5;">
                     <button type="submit"
-                            class=" btn-sm p-0 border-0 bg-transparent fs-5">
+                            class=" btn-like">
                         {% if item.is_favorite %}
                             ❤️
                         {% else %}
@@ -124,10 +124,10 @@
                     action="{{ url_for('delete_item', item_id=item.id, tab=tab) }}"
                     class="position-absolute top-0 end-0 m-2" style="z-index: 5;">
                     <button type="submit"
-                            class="btn"
+                            class="btn-delete"
                             onclick="return confirm('Ești sigur că vrei să ștergi articolul {{ item.subcategory }} ({{ item.color }})?');"
                             style="font-size: 0.8rem; line-height: 1;">
-                        STERGE
+                        ✖️
                     </button>
                 </form>
 

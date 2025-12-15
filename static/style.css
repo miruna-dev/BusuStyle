@@ -389,16 +389,6 @@
     transition: all 0.3s;
     text-transform: uppercase;
     letter-spacing: 1px;
-	background: linear-gradient(135deg, #4a0038, #c02995);
-    color: white;
-    border: none;
-    font-size: 1.1rem;
-    border-radius: 30px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    transition: all 0.3s;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-	font-family: 'Georgia', sans-serif;
 }
 .btn:hover{
 	transform: translateY(-2px);
@@ -445,4 +435,41 @@
 
 body {
 	background-color: #ffbfd6;
+}
+
+.btn-delete, .btn-like {
+    width: 50px; 
+    height: 50px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background: transparent;
+    color: #4a0038;
+    font-weight: bold;
+    border: none;
+    font-size: 2rem;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0; 
+}
+
+.btn-delete {
+    display: block; 
+    margin-left: auto;
+    margin-right: 0;
+
+}
+
+.btn-delete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.btn-like:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
 }
