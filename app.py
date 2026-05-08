@@ -51,7 +51,7 @@ db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
 
-genai.configure(api_key="AIzaSyB1guvxOyQavGQ6RvG74oRCQagyWYBgNN8")
+genai.configure(api_key="cheie-secreta")
 model = genai.GenerativeModel("gemini-flash-latest")
 
 
